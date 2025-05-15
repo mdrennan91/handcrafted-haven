@@ -14,6 +14,7 @@
 - Kerri Morris
 - Jovanny Rey
 - Gabriel Aguilera
+- Benjamin Torres
 
 ## Contributing Workflow
 
