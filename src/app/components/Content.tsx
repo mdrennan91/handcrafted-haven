@@ -44,16 +44,40 @@ export default async function Content() {
   return (
     <main className="bg-[var(--accent1-light)] px-4 py-6">
       <div className="max-w-7xl mx-auto">
-        <h1 className={`${lusitana.className} text-center text-2xl md:text-3xl font-bold mb-2`}>
-          Welcome to Our Team 08 Project
-        </h1>
-        <p className="text-center mb-10 text-sm md:text-base">
-          This is the landing page. More to come soon!
-        </p>
+        
+        {/* Hero Section */}
+        <section className="relative w-full h-[500px] mb-12 overflow-hidden rounded-xl shadow-sm border border-gray-200">
+          <Image
+            src="/hh-hero-mockup.png"
+            alt="Handcrafted Hero"
+            fill
+            className="object-cover"
+            priority
+          />
+          <div className="absolute left-0 top-0 h-full w-full bg-gradient-to-r from-[var(--primary)] via-[var(--primary-light)] to-transparent md:w-[50%] flex items-center px-8 md:px-16">
+            <div className="text-white space-y-4 max-w-md">
+              <h2 className="text-3xl md:text-4xl font-bold leading-snug">
+                Explore. Create. Bliss.
+              </h2>
+              <p className="text-sm md:text-base">
+                Start selling your handmade products today.
+              </p>
+              <Link href="/catalog">
+                <Button className="bg-[var(--secondary)] hover:bg-[var(--secondary-light)] text-black">
+                  Sign Up Today! &rarr;
+                </Button>
+              </Link>
+            </div>
+          </div>
+        </section>
 
         {/* Featured Products */}
-        <section className="bg-white rounded-xl p-6 shadow-sm border border-gray-200 mb-12">
-          <h2 className="text-xl font-bold mb-6 text-center">Featured Products</h2>
+        <section className={`mb-12`}>
+          <div className={lusitana.className}>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">
+              Check out our featured products
+            </h2>
+          </div>
           <div className="flex justify-center">
             <CatalogGrid
               products={products.map((p) => ({
@@ -68,22 +92,21 @@ export default async function Content() {
               }))}
             />
           </div>
-          <div className="text-center mt-4">
-            <Link href="/catalog">
-              <Button>View Full Catalog &rarr;</Button>
-            </Link>
-          </div>
         </section>
 
         {/* Featured Sellers */}
-        <section className="bg-white rounded-xl p-6 shadow-sm border border-gray-200 mb-12">
-          <h2 className="text-xl font-bold mb-6 text-center">Featured Sellers</h2>
+        <section className="mb-12">
+          <div className={lusitana.className}>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">
+              Meet our top-rated sellers
+            </h2>
+          </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
             {sellers.map((seller) => (
               <Link
                 key={seller.id}
                 href={`/sellers/${seller.id}`}
-                className="block rounded-lg bg-gray-50 border p-4 hover:shadow-md transition"
+                className="rounded-xl bg-white p-4 shadow-sm hover:shadow-md hover:scale-[1.02] transition border border-gray-200"
               >
                 <Image
                   src={seller.image_url}
@@ -97,11 +120,6 @@ export default async function Content() {
                 <p className="text-sm text-yellow-600">⭐ {seller.rating}</p>
               </Link>
             ))}
-          </div>
-          <div className="text-center mt-6">
-            <Link href="/sellers">
-              <Button>View All Sellers &rarr;</Button>
-            </Link>
           </div>
         </section>
       </div>

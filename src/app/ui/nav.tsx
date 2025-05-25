@@ -21,8 +21,8 @@ const links = [
 export default function Nav() {
   const pathname = usePathname();
   return (
-    <nav className="md:pr-7 lg:pr-30 xl:pr-40">
-      <ul className="flex">
+    <nav className="flex items-center gap-2">
+      <ul className="flex gap-1">
         {links.map((link) => {
           const LinkIcon = link.icon;
           return (
@@ -30,16 +30,15 @@ export default function Nav() {
               key={link.name}
               href={link.href}
               className={clsx(
-                "text-white bg-[var(--primary)] px-5 py-6 transition-all ease-in-out duration-500 hover:translate-y-3 hover:rounded-b-lg hover:shadow-gray-500 hover:shadow-lg",
+                "text-white px-4 py-2 rounded-md transition-all ease-in-out duration-300",
                 {
                   "bg-[var(--secondary)]": pathname === link.href,
+                  "hover:bg-[var(--secondary)]": pathname !== link.href,
                 }
               )}
             >
               <LinkIcon className="mb-1 w-6 inline-block" />
-              <p
-                className={`${lusitana.className} hidden md:inline-block mx-1 text-lg`}
-              >
+              <p className={`${lusitana.className} hidden md:inline-block mx-1 text-sm`}>
                 {link.name}
               </p>
             </Link>
