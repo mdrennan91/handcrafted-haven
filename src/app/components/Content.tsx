@@ -1,82 +1,77 @@
 import Image from "next/image";
 import { lusitana } from "../ui/fonts";
+import CatalogGrid from "../components/CatalogGrid";
+import Link from "next/link";
+import { PrismaClient } from "../../generated/prisma";
 
-export default function Content() {
+const prisma = new PrismaClient();
+
+export default async function Content() {
+  const products = await prisma.product.findMany({
+    include: { seller: true },
+    take: 4,
+  });
+
+  const sellers = await prisma.seller.findMany({
+    take: 3,
+  });
+
   return (
-    <>
-      <main className="p-3 bg-[var(--accent1-light)]">
-        <h1 className={`${lusitana.className} text-center`}>
+    <main className="bg-[var(--accent1-light)] px-4 py-6">
+      <div className="max-w-7xl mx-auto">
+        <h1 className={`${lusitana.className} text-center text-2xl md:text-3xl font-bold mb-2`}>
           Welcome to Our Team 08 Project
         </h1>
-        <p className="text-center my-10">
+        <p className="text-center mb-10 text-sm md:text-base">
           This is the landing page. More to come soon!
         </p>
-        <div className="flex flex-col items-center md:grid md:grid-cols-5 md:grid-rows-3 gap-5 m-auto max-w-[500] md:max-w-full">
-          <section className="md:col-span-3 md:col-start-3 md:row-start-1 shadow-xl shadow-gray-400 p-5 rounded-sm">
-            <strong>Catalog</strong> <br /> Lorem ipsum dolor sit amet,
-            consectetur adipiscing elit. Nam tincidunt, sapien ac consectetur
-            blandit, ante leo laoreet ante, nec ultrices nunc eros nec libero.
-            Curabitur vel laoreet dolor, nec lobortis tellus. Aenean sed
-            hendrerit risus. Lorem ipsum dolor sit amet, consectetur adipiscing
-            elit. Sed efficitur lacus eu tortor suscipit, a efficitur eros
-            gravida. Donec quis est sit amet dui congue sodales. Donec turpis
-            arcu, condimentum at eros nec, luctus vestibulum nulla. Praesent
-            cursus massa enim, a sodales elit tincidunt at. Quisque mattis
-            sollicitudin elit, vitae convallis ligula dignissim et. Morbi quis
-            mattis ex. Sed ultrices hendrerit eros ut placerat. Maecenas eget
-            leo nisi.
-          </section>
-          <Image
-            alt=""
-            src="/placeholder.png"
-            width={500}
-            height={500}
-            className="md:col-span-2 md:col-start-1 md:row-start-1"
-          />
-          <section className="md:col-span-3 md:row-start-2 shadow-xl shadow-gray-400 p-5 rounded-sm">
-            <strong>Sellers</strong> <br /> Lorem ipsum dolor sit amet,
-            consectetur adipiscing elit. Nam tincidunt, sapien ac consectetur
-            blandit, ante leo laoreet ante, nec ultrices nunc eros nec libero.
-            Curabitur vel laoreet dolor, nec lobortis tellus. Aenean sed
-            hendrerit risus. Lorem ipsum dolor sit amet, consectetur adipiscing
-            elit. Sed efficitur lacus eu tortor suscipit, a efficitur eros
-            gravida. Donec quis est sit amet dui congue sodales. Donec turpis
-            arcu, condimentum at eros nec, luctus vestibulum nulla. Praesent
-            cursus massa enim, a sodales elit tincidunt at. Quisque mattis
-            sollicitudin elit, vitae convallis ligula dignissim et. Morbi quis
-            mattis ex. Sed ultrices hendrerit eros ut placerat. Maecenas eget
-            leo nisi.
-          </section>
-          <Image
-            alt=""
-            src="/placeholder.png"
-            width={500}
-            height={500}
-            className="md:col-span-2 md:col-start-4 md:row-start-2"
-          />
-          <section className="md:col-span-3 md:col-start-3 md:row-start-3 shadow-xl shadow-gray-400 p-5 rounded-sm">
-            <strong>Account/Login</strong> <br /> Lorem ipsum dolor sit amet,
-            consectetur adipiscing elit. Nam tincidunt, sapien ac consectetur
-            blandit, ante leo laoreet ante, nec ultrices nunc eros nec libero.
-            Curabitur vel laoreet dolor, nec lobortis tellus. Aenean sed
-            hendrerit risus. Lorem ipsum dolor sit amet, consectetur adipiscing
-            elit. Sed efficitur lacus eu tortor suscipit, a efficitur eros
-            gravida. Donec quis est sit amet dui congue sodales. Donec turpis
-            arcu, condimentum at eros nec, luctus vestibulum nulla. Praesent
-            cursus massa enim, a sodales elit tincidunt at. Quisque mattis
-            sollicitudin elit, vitae convallis ligula dignissim et. Morbi quis
-            mattis ex. Sed ultrices hendrerit eros ut placerat. Maecenas eget
-            leo nisi.
-          </section>
-          <Image
-            alt=""
-            src="/placeholder.png"
-            width={500}
-            height={500}
-            className="md:col-span-2 md:col-start-1 md:row-start-3"
-          />
-        </div>
-      </main>
-    </>
+
+        {/* Featured Products */}
+        <section className="bg-white rounded-xl p-6 shadow-sm border border-gray-200 mb-12">
+          <h2 className="text-xl font-bold mb-6 text-center">Featured Products</h2>
+          <div className="flex justify-center">
+            <CatalogGrid products={products} />
+          </div>
+          <div className="text-center mt-4">
+            <Link href="/catalog" className="text-blue-600 underline hover:text-blue-800 font-medium">
+              View Full Catalog &rarr;
+            </Link>
+          </div>
+        </section>
+
+        {/* Featured Sellers */}
+        <section className="bg-white rounded-xl p-6 shadow-sm border border-gray-200 mb-12">
+          <h2 className="text-xl font-bold mb-6 text-center">Featured Sellers</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+            {sellers.map((seller) => (
+              <Link
+                key={seller.id}
+                href={`/sellers/${seller.id}`}
+                className="block rounded-lg bg-gray-50 border p-4 hover:shadow-md transition"
+              >
+                <Image
+                  src={seller.imageUrl}
+                  alt={seller.name}
+                  width={300}
+                  height={200}
+                  className="rounded-md object-cover w-full h-40"
+                />
+                <h3 className="mt-3 text-lg font-semibold text-gray-900">{seller.name}</h3>
+                <p className="text-sm text-gray-500">{seller.specialty}</p>
+                <p className="text-sm text-yellow-600">⭐ {seller.rating}</p>
+              </Link>
+            ))}
+          </div>
+          <div className="text-center mt-6">
+            <Link
+              href="/sellers"
+              className="text-blue-600 underline hover:text-blue-800 font-medium"
+            >
+              View All Sellers &rarr;
+            </Link>
+          </div>
+        </section>
+      </div>
+    </main>
   );
 }

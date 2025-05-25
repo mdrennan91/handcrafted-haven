@@ -1,0 +1,58 @@
+export const mockProducts = [
+  {
+    id: 1,
+    title: "Handmade Mug",
+    price: "18.00",
+    imageUrl: "/placeholder.png",
+    seller: { id: "sarah", name: "Sarah’s Studio" },
+  },
+  {
+    id: 2,
+    title: "Knitted Scarf",
+    price: "25.00",
+    imageUrl: "/placeholder.png",
+    seller: { id: "liam", name: "Liam’s Looms" },
+  },
+  {
+    id: 3,
+    title: "Woven Basket",
+    price: "30.00",
+    imageUrl: "/placeholder.png",
+    seller: { id: "june", name: "June's Creations" },
+  },
+  {
+    id: 4,
+    title: "Ceramic Vase",
+    price: "45.00",
+    imageUrl: "/placeholder.png",
+    seller: { id: "artbyava", name: "Art by Ava" },
+  },
+  {
+    id: 5,
+    title: "Wooden Coasters (Set of 4)",
+    price: "22.00",
+    imageUrl: "/placeholder.png",
+    seller: { id: "crafteddave", name: "Crafted by Dave" },
+  },
+  {
+    id: 6,
+    title: "Beeswax Candles",
+    price: "28.00",
+    imageUrl: "/placeholder.png",
+    seller: { id: "honeyglow", name: "HoneyGlow Studio" },
+  },
+  {
+    id: 7,
+    title: "Macrame Wall Hanging",
+    price: "35.00",
+    imageUrl: "/placeholder.png",
+    seller: { id: "macramejoy", name: "Macrame Joy" },
+  },
+  {
+    id: 8,
+    title: "Resin Jewelry Tray",
+    price: "20.00",
+    imageUrl: "/placeholder.png",
+    seller: { id: "resindreams", name: "Resin Dreams" },
+  },
+];
