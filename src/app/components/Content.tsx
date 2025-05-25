@@ -1,20 +1,45 @@
-import Image from "next/image";
-import { lusitana } from "../ui/fonts";
-import CatalogGrid from "../components/CatalogGrid";
-import Link from "next/link";
-import { PrismaClient } from "../../generated/prisma";
+import Image from 'next/image';
+import { lusitana } from '../ui/fonts';
+import CatalogGrid from '@ui/catalog/CatalogGrid';
+import Link from 'next/link';
+import postgres from 'postgres';
+import { Button } from '@ui/button';
 
-const prisma = new PrismaClient();
+
+const sql = postgres(process.env.DATABASE_URL!, {
+  ssl: 'require',
+  prepare: false,
+});
+
+type Product = {
+  id: string;
+  inv_title: string;
+  inv_price: number;
+  seller_id: string;
+  name: string;
+};
+
+type Seller = {
+  id: string;
+  name: string;
+  specialty: string;
+  image_url: string;
+  rating: number;
+};
 
 export default async function Content() {
-  const products = await prisma.product.findMany({
-    include: { seller: true },
-    take: 4,
-  });
+  const products = await sql<Product[]>`
+    SELECT i.id, i.inv_title, i.inv_price, i.seller_id, s.name
+    FROM inventory i
+    JOIN sellers s ON i.seller_id = s.id
+    LIMIT 4
+  `;
 
-  const sellers = await prisma.seller.findMany({
-    take: 3,
-  });
+  const sellers = await sql<Seller[]>`
+    SELECT id, name, specialty, image_url, rating
+    FROM sellers
+    LIMIT 3
+  `;
 
   return (
     <main className="bg-[var(--accent1-light)] px-4 py-6">
@@ -30,11 +55,22 @@ export default async function Content() {
         <section className="bg-white rounded-xl p-6 shadow-sm border border-gray-200 mb-12">
           <h2 className="text-xl font-bold mb-6 text-center">Featured Products</h2>
           <div className="flex justify-center">
-            <CatalogGrid products={products} />
+            <CatalogGrid
+              products={products.map((p) => ({
+                id: p.id,
+                title: p.inv_title,
+                price: p.inv_price,
+                imageUrl: '/placeholder.png',
+                seller: {
+                  id: p.seller_id,
+                  name: p.name,
+                },
+              }))}
+            />
           </div>
           <div className="text-center mt-4">
-            <Link href="/catalog" className="text-blue-600 underline hover:text-blue-800 font-medium">
-              View Full Catalog &rarr;
+            <Link href="/catalog">
+              <Button>View Full Catalog &rarr;</Button>
             </Link>
           </div>
         </section>
@@ -50,7 +86,7 @@ export default async function Content() {
                 className="block rounded-lg bg-gray-50 border p-4 hover:shadow-md transition"
               >
                 <Image
-                  src={seller.imageUrl}
+                  src={seller.image_url}
                   alt={seller.name}
                   width={300}
                   height={200}
@@ -63,11 +99,8 @@ export default async function Content() {
             ))}
           </div>
           <div className="text-center mt-6">
-            <Link
-              href="/sellers"
-              className="text-blue-600 underline hover:text-blue-800 font-medium"
-            >
-              View All Sellers &rarr;
+            <Link href="/sellers">
+              <Button>View All Sellers &rarr;</Button>
             </Link>
           </div>
         </section>

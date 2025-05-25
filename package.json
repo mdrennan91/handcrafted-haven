@@ -7,16 +7,17 @@
   },
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "prisma generate && next build",
+    "build": "pnpm exec prisma generate && next build",
     "start": "next start",
     "lint": "next lint",
     "seed": "pnpm exec ts-node prisma/seed.js"
   },
   "dependencies": {
-    "@prisma/client": "^6.8.2",
+    "@neondatabase/serverless": "^1.0.0",
     "clsx": "^2.1.1",
     "lucide-react": "^0.511.0",
     "next": "15.3.2",
+    "postgres": "^3.4.7",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },
@@ -28,9 +29,8 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "15.3.2",
-    "prisma": "^6.8.2",
     "tailwindcss": "^4",
-    "ts-node": "^10.9.2",
     "typescript": "^5"
-  }
+  },
+  "packageManager": "pnpm@9.2.0+sha512.98a80fd11c2e7096747762304106432b3ddc67dcf54b5a8c01c93f68a2cd5e05e6821849522a06fb76284d41a2660d5e334f2ee3bbf29183bf2e739b1dafa771"
 }

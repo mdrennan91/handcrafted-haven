@@ -1,11 +1,25 @@
-import { PrismaClient } from "../../generated/prisma";
-import Link from "next/link";
-import Image from "next/image";
+import postgres from 'postgres';
+import Image from 'next/image';
+import Link from 'next/link';
 
-const prisma = new PrismaClient();
+const sql = postgres(process.env.DATABASE_URL!, {
+  ssl: 'require',
+  prepare: false,
+});
+
+type Seller = {
+  id: string;
+  name: string;
+  specialty: string;
+  image_url: string;
+  rating: number;
+};
 
 export default async function SellersPage() {
-  const sellers = await prisma.seller.findMany();
+  const sellers = await sql<Seller[]>`
+    SELECT id, name, specialty, image_url, rating
+    FROM sellers
+  `;
 
   return (
     <main className="p-6 max-w-7xl mx-auto">
@@ -19,7 +33,7 @@ export default async function SellersPage() {
             className="block rounded-lg bg-gray-50 border p-4 hover:shadow-md transition"
           >
             <Image
-              src={seller.imageUrl}
+              src={seller.image_url}
               alt={seller.name}
               width={300}
               height={200}

@@ -1,7 +1,9 @@
-import Image from "next/image";
-import Link from "next/link";
+import Image from 'next/image';
+import Link from 'next/link';
+import { Button } from '@ui/button';
 
-type Product = {
+
+export type ProductCardProps = {
   id: string;
   title: string;
   price: number;
@@ -12,7 +14,7 @@ type Product = {
   };
 };
 
-export default function ProductCard({ product }: { product: Product }) {
+export default function ProductCard({ product }: { product: ProductCardProps }) {
   return (
     <div className="rounded-xl bg-gray-50 p-4 shadow-sm hover:shadow-md transition hover:scale-[1.02] border border-gray-200">
       <div className="overflow-hidden rounded-lg bg-white">
@@ -25,12 +27,10 @@ export default function ProductCard({ product }: { product: Product }) {
         />
       </div>
       <div className="mt-4">
-        <h2 className="text-lg font-semibold text-gray-900">
-          {product.title}
-        </h2>
-        <p className="text-sm text-gray-500">${product.price.toFixed(2)}</p>
+        <h2 className="text-lg font-semibold text-gray-900">{product.title}</h2>
+        <p className="text-sm text-gray-500">${(product.price / 100).toFixed(2)}</p>
         <p className="mt-2 text-sm text-gray-600">
-          by{" "}
+          by{' '}
           <Link
             href={`/sellers/${product.seller.id}`}
             className="underline text-blue-600 hover:text-blue-800"
@@ -39,12 +39,9 @@ export default function ProductCard({ product }: { product: Product }) {
           </Link>
         </p>
         <div className="mt-4">
-          <Link
-            href={`/products/${product.id}`}
-            className="inline-block text-sm text-white bg-blue-600 px-3 py-1 rounded hover:bg-blue-700 transition"
-          >
-            View Product
-          </Link>
+            <Link href={`/products/${product.id}`}>
+                <Button>View Product</Button>
+            </Link>
         </div>
       </div>
     </div>
