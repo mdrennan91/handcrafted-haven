@@ -25,8 +25,8 @@ type Product = {
   featured: boolean;
 };
 
-export default async function SellerProfile({ params }: { params: { id: string } }) {
-  const { id } = await Promise.resolve(params);
+export default async function Seller({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
 
   const sellerResult = await sql<Seller[]>`
     SELECT id, name, specialty, image_url, rating
