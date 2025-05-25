@@ -2,15 +2,11 @@
   "name": "handcrafted-haven",
   "version": "0.1.0",
   "private": true,
-  "prisma": {
-    "seed": "ts-node prisma/seed.js"
-  },
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "pnpm exec prisma generate && next build",
+    "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "seed": "pnpm exec ts-node prisma/seed.js"
+    "lint": "next lint"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.0.0",
