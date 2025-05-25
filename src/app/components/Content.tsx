@@ -63,7 +63,7 @@ export default async function Content() {
                 Start selling your handmade products today.
               </p>
               <Link href="/catalog">
-                <Button className="bg-[var(--secondary)] hover:bg-[var(--secondary-light)] text-black">
+                <Button className="bg-[var(--secondary)] hover:bg-[var(--secondary-light)] text-black transition-transform duration-200 hover:scale-105">
                   Sign Up Today! &rarr;
                 </Button>
               </Link>
