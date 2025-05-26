@@ -1,0 +1,12 @@
+import NextAuth from 'next-auth';
+import { authConfig } from './auth.config';
+ 
+export default NextAuth(authConfig).auth;
+
+//figure out which paths to protect
+ 
+export const config = {
+  // https://nextjs.org/docs/app/building-your-application/routing/middleware#matcher
+  //matcher allows you to filter Middleware to run on specific paths.
+//   matcher: ['/((?!api|_next/static|_next/image|.*\\.png$).*)'],
+};
