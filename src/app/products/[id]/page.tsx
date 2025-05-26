@@ -1,6 +1,8 @@
 import postgres from 'postgres';
 import Image from "next/image";
 import Link from "next/link";
+import AddToCartButton from '@/app/ui/cart/AddToCartButton';
+
 
 const sql = postgres(process.env.DATABASE_URL!, {
   ssl: 'require',
@@ -58,6 +60,17 @@ export default async function ProductPage({ params }: { params: Promise<{ id: st
       <p className="text-gray-700 text-base">
         This is a handcrafted item with love ♥
       </p>
+      <div className="mt-8">
+        <AddToCartButton
+          product={{
+            id: product.id,
+            title: product.inv_title,
+            price: product.inv_price,
+            imageUrl: '/placeholder.png',
+            quantity: 1,
+          }}
+        />
+      </div>
     </main>
   );
 }
