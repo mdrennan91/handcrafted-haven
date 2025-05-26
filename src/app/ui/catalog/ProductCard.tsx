@@ -1,9 +1,10 @@
+'use client';
+
 import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '@ui/button';
 import { ShoppingCart } from 'lucide-react';
-
-
+import { addToCart } from '@/app/lib/cart';
 
 export type ProductCardProps = {
   id: string;
@@ -11,12 +12,22 @@ export type ProductCardProps = {
   price: number;
   imageUrl: string;
   seller: {
-    id: string;
-    name: string;
+  id: string;
+  name: string;
   };
 };
 
 export default function ProductCard({ product }: { product: ProductCardProps }) {
+  const handleAddToCart = () => {
+    addToCart({
+      id: product.id,
+      title: product.title,
+      price: product.price,
+      imageUrl: product.imageUrl,
+      quantity: 1,
+    });
+  };
+
   return (
     <div className="relative rounded-xl bg-white p-4 shadow-md hover:shadow-lg transition-transform duration-200 hover:scale-[1.02] border border-gray-100">
       <div className="overflow-hidden rounded-lg bg-gray-100 h-48">
@@ -43,13 +54,15 @@ export default function ProductCard({ product }: { product: ProductCardProps }) 
           </Link>
         </p>
         <div className="mt-4">
-            <Link href={`/products/${product.id}`}>
-                <Button>View Product</Button>
-            </Link>
+          <Link href={`/products/${product.id}`}>
+            <Button>View Product</Button>
+          </Link>
         </div>
       </div>
+
       <button
         type="button"
+        onClick={handleAddToCart}
         className="absolute bottom-4 right-4 bg-gray-100 hover:bg-gray-200 p-2 rounded-full shadow-md"
       >
         <ShoppingCart size={16} />
