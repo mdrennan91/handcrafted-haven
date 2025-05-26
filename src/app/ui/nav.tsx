@@ -1,47 +1,39 @@
 "use client";
 
-import { BookImage, House, PencilRuler } from "lucide-react";
+import { BookImage, House, Package, ShoppingCart } from "lucide-react";
 import clsx from "clsx";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-
 import React from "react";
-import { lusitana } from "./fonts";
 
 const links = [
   { name: "Home", href: "/", icon: House },
-  {
-    name: "Catalog",
-    href: "/catalog",
-    icon: BookImage,
-  },
-  { name: "Sellers", href: "/sellers", icon: PencilRuler },
+  { name: "Catalog", href: "/catalog", icon: BookImage },
+  { name: "Sellers", href: "/sellers", icon: Package },
+  { name: "Cart", href: "/cart", icon: ShoppingCart },
 ];
 
 export default function Nav() {
   const pathname = usePathname();
   return (
-    <nav className="md:pr-7 lg:pr-30 xl:pr-40">
-      <ul className="flex">
+    <nav className="flex items-center gap-2">
+      <ul className="flex gap-1">
         {links.map((link) => {
           const LinkIcon = link.icon;
           return (
             <Link
               key={link.name}
               href={link.href}
+              title={link.name} // Tooltip on hover
               className={clsx(
-                "text-white bg-[var(--primary)] px-5 py-6 transition-all ease-in-out duration-500 hover:translate-y-3 hover:rounded-b-lg hover:shadow-gray-500 hover:shadow-lg",
+                "text-white p-3 rounded-md transition-all ease-in-out duration-300",
                 {
                   "bg-[var(--secondary)]": pathname === link.href,
+                  "hover:bg-[var(--secondary)]": pathname !== link.href,
                 }
               )}
             >
-              <LinkIcon className="mb-1 w-6 inline-block" />
-              <p
-                className={`${lusitana.className} hidden md:inline-block mx-1 text-lg`}
-              >
-                {link.name}
-              </p>
+              <LinkIcon className="w-5 h-5" />
             </Link>
           );
         })}

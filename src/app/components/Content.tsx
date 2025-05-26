@@ -1,82 +1,128 @@
-import Image from "next/image";
-import { lusitana } from "../ui/fonts";
+import Image from 'next/image';
+import { lusitana } from '../ui/fonts';
+import CatalogGrid from '@ui/catalog/CatalogGrid';
+import Link from 'next/link';
+import postgres from 'postgres';
+import { Button } from '@ui/button';
 
-export default function Content() {
+
+const sql = postgres(process.env.DATABASE_URL!, {
+  ssl: 'require',
+  prepare: false,
+});
+
+type Product = {
+  id: string;
+  inv_title: string;
+  inv_price: number;
+  seller_id: string;
+  name: string;
+};
+
+type Seller = {
+  id: string;
+  name: string;
+  specialty: string;
+  image_url: string;
+  rating: number;
+};
+
+export default async function Content() {
+  const products = await sql<Product[]>`
+    SELECT i.id, i.inv_title, i.inv_price, i.seller_id, s.name
+    FROM inventory i
+    JOIN sellers s ON i.seller_id = s.id
+    LIMIT 4
+  `;
+
+  const sellers = await sql<Seller[]>`
+    SELECT id, name, specialty, image_url, rating
+    FROM sellers
+    LIMIT 3
+  `;
+
   return (
-    <>
-      <main className="p-3 bg-[var(--accent1-light)]">
-        <h1 className={`${lusitana.className} text-center`}>
-          Welcome to Our Team 08 Project
-        </h1>
-        <p className="text-center my-10">
-          This is the landing page. More to come soon!
-        </p>
-        <div className="flex flex-col items-center md:grid md:grid-cols-5 md:grid-rows-3 gap-5 m-auto max-w-[500] md:max-w-full">
-          <section className="md:col-span-3 md:col-start-3 md:row-start-1 shadow-xl shadow-gray-400 p-5 rounded-sm">
-            <strong>Catalog</strong> <br /> Lorem ipsum dolor sit amet,
-            consectetur adipiscing elit. Nam tincidunt, sapien ac consectetur
-            blandit, ante leo laoreet ante, nec ultrices nunc eros nec libero.
-            Curabitur vel laoreet dolor, nec lobortis tellus. Aenean sed
-            hendrerit risus. Lorem ipsum dolor sit amet, consectetur adipiscing
-            elit. Sed efficitur lacus eu tortor suscipit, a efficitur eros
-            gravida. Donec quis est sit amet dui congue sodales. Donec turpis
-            arcu, condimentum at eros nec, luctus vestibulum nulla. Praesent
-            cursus massa enim, a sodales elit tincidunt at. Quisque mattis
-            sollicitudin elit, vitae convallis ligula dignissim et. Morbi quis
-            mattis ex. Sed ultrices hendrerit eros ut placerat. Maecenas eget
-            leo nisi.
-          </section>
+    <main className="bg-[var(--accent1-light)] px-4 py-6">
+      <div className="max-w-7xl mx-auto">
+        
+        {/* Hero Section */}
+        <section className="relative w-full h-[500px] mb-12 overflow-hidden rounded-xl shadow-sm border border-gray-200">
           <Image
-            alt=""
-            src="/placeholder.png"
-            width={500}
-            height={500}
-            className="md:col-span-2 md:col-start-1 md:row-start-1"
+            src="/hh-hero-mockup.png"
+            alt="Handcrafted Hero"
+            fill
+            className="object-cover"
+            priority
           />
-          <section className="md:col-span-3 md:row-start-2 shadow-xl shadow-gray-400 p-5 rounded-sm">
-            <strong>Sellers</strong> <br /> Lorem ipsum dolor sit amet,
-            consectetur adipiscing elit. Nam tincidunt, sapien ac consectetur
-            blandit, ante leo laoreet ante, nec ultrices nunc eros nec libero.
-            Curabitur vel laoreet dolor, nec lobortis tellus. Aenean sed
-            hendrerit risus. Lorem ipsum dolor sit amet, consectetur adipiscing
-            elit. Sed efficitur lacus eu tortor suscipit, a efficitur eros
-            gravida. Donec quis est sit amet dui congue sodales. Donec turpis
-            arcu, condimentum at eros nec, luctus vestibulum nulla. Praesent
-            cursus massa enim, a sodales elit tincidunt at. Quisque mattis
-            sollicitudin elit, vitae convallis ligula dignissim et. Morbi quis
-            mattis ex. Sed ultrices hendrerit eros ut placerat. Maecenas eget
-            leo nisi.
-          </section>
-          <Image
-            alt=""
-            src="/placeholder.png"
-            width={500}
-            height={500}
-            className="md:col-span-2 md:col-start-4 md:row-start-2"
-          />
-          <section className="md:col-span-3 md:col-start-3 md:row-start-3 shadow-xl shadow-gray-400 p-5 rounded-sm">
-            <strong>Account/Login</strong> <br /> Lorem ipsum dolor sit amet,
-            consectetur adipiscing elit. Nam tincidunt, sapien ac consectetur
-            blandit, ante leo laoreet ante, nec ultrices nunc eros nec libero.
-            Curabitur vel laoreet dolor, nec lobortis tellus. Aenean sed
-            hendrerit risus. Lorem ipsum dolor sit amet, consectetur adipiscing
-            elit. Sed efficitur lacus eu tortor suscipit, a efficitur eros
-            gravida. Donec quis est sit amet dui congue sodales. Donec turpis
-            arcu, condimentum at eros nec, luctus vestibulum nulla. Praesent
-            cursus massa enim, a sodales elit tincidunt at. Quisque mattis
-            sollicitudin elit, vitae convallis ligula dignissim et. Morbi quis
-            mattis ex. Sed ultrices hendrerit eros ut placerat. Maecenas eget
-            leo nisi.
-          </section>
-          <Image
-            alt=""
-            src="/placeholder.png"
-            width={500}
-            height={500}
-            className="md:col-span-2 md:col-start-1 md:row-start-3"
-          />
-        </div>
-      </main>
-    </>
+          <div className="absolute left-0 top-0 h-full w-full bg-gradient-to-r from-[var(--primary)] via-[var(--primary-light)] to-transparent md:w-[50%] flex items-center px-8 md:px-16">
+            <div className="text-white space-y-4 max-w-md">
+              <h2 className="text-3xl md:text-4xl font-bold leading-snug">
+                Explore. Create. Bliss.
+              </h2>
+              <p className="text-sm md:text-base">
+                Start selling your handmade products today.
+              </p>
+              <Link href="/catalog">
+                <Button className="bg-[var(--secondary)] hover:bg-[var(--secondary-light)] text-black transition-transform duration-200 hover:scale-105">
+                  Sign Up Today! &rarr;
+                </Button>
+              </Link>
+            </div>
+          </div>
+        </section>
+
+        {/* Featured Products */}
+        <section className={`mb-12`}>
+          <div className={lusitana.className}>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">
+              Check out our featured products
+            </h2>
+          </div>
+          <div className="flex justify-center">
+            <CatalogGrid
+              products={products.map((p) => ({
+                id: p.id,
+                title: p.inv_title,
+                price: p.inv_price,
+                imageUrl: '/placeholder.png',
+                seller: {
+                  id: p.seller_id,
+                  name: p.name,
+                },
+              }))}
+            />
+          </div>
+        </section>
+
+        {/* Featured Sellers */}
+        <section className="mb-12">
+          <div className={lusitana.className}>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">
+              Meet our top-rated sellers
+            </h2>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+            {sellers.map((seller) => (
+              <Link
+                key={seller.id}
+                href={`/sellers/${seller.id}`}
+                className="rounded-xl bg-white p-4 shadow-sm hover:shadow-md hover:scale-[1.02] transition border border-gray-200"
+              >
+                <Image
+                  src={seller.image_url}
+                  alt={seller.name}
+                  width={300}
+                  height={200}
+                  className="rounded-md object-cover w-full h-40"
+                />
+                <h3 className="mt-3 text-lg font-semibold text-gray-900">{seller.name}</h3>
+                <p className="text-sm text-gray-500">{seller.specialty}</p>
+                <p className="text-sm text-yellow-600">⭐ {seller.rating}</p>
+              </Link>
+            ))}
+          </div>
+        </section>
+      </div>
+    </main>
   );
 }

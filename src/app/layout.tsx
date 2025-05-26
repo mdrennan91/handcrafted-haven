@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { notoSans } from "./ui/fonts";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -14,7 +16,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={notoSans.className}>{children}</body>
+      <body className={`${notoSans.className} flex min-h-screen flex-col`}>
+        <Header />
+        <main className="flex-grow">{children}</main>
+        <Footer />
+      </body>
     </html>
   );
 }
