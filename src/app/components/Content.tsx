@@ -57,7 +57,7 @@ export default async function Content() {
           <div className="absolute left-0 top-0 h-full w-full bg-gradient-to-r from-[var(--primary)] via-[var(--primary-light)] to-transparent md:w-[50%] flex items-center px-8 md:px-16">
             <div className="text-white space-y-4 max-w-md">
               <h2 className="text-3xl md:text-4xl font-bold leading-snug">
-                Explore. Create. Bliss.
+                Explore. Create. Share.
               </h2>
               <p className="text-sm md:text-base">
                 Start selling your handmade products today.
