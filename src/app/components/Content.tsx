@@ -1,5 +1,6 @@
 import Image from 'next/image';
-import { lusitana } from '../ui/fonts';
+// import { lusitana } from '../ui/fonts';
+import { lusitana } from '@/app/ui/fonts'
 import CatalogGrid from '@ui/catalog/CatalogGrid';
 import Link from 'next/link';
 import postgres from 'postgres';
@@ -12,7 +13,7 @@ const sql = postgres(process.env.DATABASE_URL!, {
 });
 
 type Product = {
-  id: string;
+  id: string;  
   inv_title: string;
   inv_price: number;
   seller_id: string;

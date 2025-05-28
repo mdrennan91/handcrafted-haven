@@ -2,41 +2,75 @@
 
 //still need to add refernce for Register page;
 //css/tailwind classes; formAction and useActionState stuff, authentication
+// send user back to /dashboard ???
 
-
+import { lusitana } from '@/app/ui/fonts';
 import { useActionState } from "react";
-
+import { authenticate } from '@/app/lib/auth';
+import { useSearchParams } from 'next/navigation';
+import { Button } from '@ui/button';
 
 export default function LoginForm() {
-    // const [formAction] = useActionState (authenticate, undefined)
+    
+    const searchParams = useSearchParams();  //look in param for url to return to
+    const callbackUrl = searchParams.get('callbackUrl') || '/dashboard';  //send user back to page trying to enter or /dashboard
+    // if authentication fails, authenticate returns error string, errorMessage is set to that string, render errorMessage in form
+    // formAction triggers state change, can use isPending to disable button, etc.
+    const [errorMessage, formAction, isPending] = useActionState (authenticate, undefined); 
+    
     return (
         
-        <form className="">
-            <div className="">Sign In</div>
-            <div className="">
-                <label className=""
-                        htmlFor="email">
-                    Email
-                    <input 
-                        className="" 
-                        placeholder="Enter your email address" 
-                        id="email"
-                        name="email"
-                        type="text"
-                        required />
-                </label>
-                <label className=""
+        <form action={formAction} className="space-y-3.5">
+            <div className="flex-1 rounded-lg bg-[var(--accent1)] px-5 pb-4 pt-9">
+                <h1 className={`${lusitana.className} mb-3 text-2xl text-[var(--primary-light)]`}>
+                  Please log in to continue.</h1>
+                <div className="w-full">
+                    <div>
+                    <label className="mb-3 mt-5 block text-xs font-medium text-[var(--accent1)]"
+                            htmlFor="email">
+                        Email
+                        <input 
+                            className="peer block w-full rounded-2xl border border-gray-300 py-0.5 text-sm outline-2 placeholder:text-gray-400" 
+                            placeholder="Enter email address" 
+                            id="email"
+                            name="email"
+                            type="text"
+                            required />
+                    </label> 
+                    </div>
+                <div className="mt-5"></div>
+                <label className="mb-3 mt-5 block text-xs font-medium text-[var(--accent1)]"
                         htmlFor="password">
                     Password
                     <input 
-                        className="" 
+                        className="peer block w-full rounded-2xl border border-gray-300 py-0.5 text-sm outline-2 placeholder:text-gray-400" 
                         placeholder="Password"
                         id="password"                        
                         type="password" />
                 </label>
-            <button className="">Log In</button>            
-            <p className="signup-link">Don't have an account? <a href="#">Sign up</a></p>
+                </div>
+                <div>
+                    <Button className=" bg-[var(--secondary)] hover:bg-[var(--secondary-light)] text-black transition-transform duration-200 hover:scale-105">
+                        Sign In
+                    </Button>            
+                    <div className="flex h-8 items-end space-x-1" aria-live="polite" aria-atomic="true" >
+                        {errorMessage && (
+                            <>
+                            <p className="text-sm text-red-800">{errorMessage}</p>
+                            </>
+                        )}
+                    </div>
+                </div>
             </div>
-        </form>
+       </form>
+            
+
+
+                
+                
+
+
+            
+        
     );
 }

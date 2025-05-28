@@ -1,6 +1,6 @@
 import NextAuth from 'next-auth';
 import { authConfig } from './auth.config';
-import Credentials from 'next-auth/providers/credentials';
+import Credentials from 'next-auth/providers/credentials';  // lets you handle auth where users sign in with username/password, not managed by NextAuthjs
 import type { User } from '@/app/lib/definitions';
 import bcrypt from 'bcryptjs'
 import postgres from 'postgres';
@@ -8,7 +8,7 @@ import postgres from 'postgres';
 //use zod for validating form data before credentials are checked
 import { z } from 'zod';
 
-const sql = postgres(process.env.POSTGRES_URL!, {ssl: 'require'});
+const sql = postgres(process.env.DATABASE_URL!, {ssl: 'require'});
 
 async function getUser(email: string): Promise<User | undefined> {
     try {
