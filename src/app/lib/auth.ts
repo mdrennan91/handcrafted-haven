@@ -4,7 +4,7 @@ import { AuthError } from "next-auth";
 import { signIn } from "../../../auth";
 
 export async function authenticate (
-    prevState: any, //string | undefined,
+    prevState: string | undefined,
     formData: FormData
     
 ) {

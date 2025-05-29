@@ -1,4 +1,5 @@
-import NextAuth, { CredentialsSignin } from 'next-auth';
+import NextAuth from 'next-auth';
+// import NextAuth, { CredentialsSignin } from 'next-auth';
 import { authConfig } from './auth.config';
 import Credentials from 'next-auth/providers/credentials';  // lets you handle auth where users sign in with username/password, not managed by NextAuthjs
 import type { User } from '@/app/lib/definitions';
@@ -54,41 +55,3 @@ export const { auth, signIn, signOut } = NextAuth({
       }),
     ],
 });
-
-// export const { auth, signIn, signOut } = NextAuth({
-//     ...authConfig,
-//     providers: [Credentials({
-//         authorize: async (credentials) => {
-//         const email = credentials?.email;
-//         const password = credentials?.password;
-
-//         console.log('⏩ Credentials received:', { email, password });
-
-//         const result = await sql`SELECT * FROM users WHERE email = ${email}`;
-//         const user = result[0];
-
-//         console.log('🔍 User from DB:', user);
-
-//         if (!user) {
-//             console.log('❌ No user found');
-//             return null;
-//         }
-
-//         const isValid = await bcrypt.compare(password, user.password);
-//         console.log('🔐 Password match?', isValid);
-
-//         if (!isValid) {
-//             console.log('❌ Password mismatch');
-//             return null;
-//         }
-
-//         console.log('✅ Authenticated successfully!');
-//         return {
-//             id: user.user_id,
-//             email: user.email,
-//             user_type: user.user_type,
-//         };
-//       }
-
-//     })]
-// })

@@ -51,10 +51,12 @@ export default function LoginForm() {
                 </label>
                 </div>
                 <div>
+                
+                    <input type="hidden" name="redirectTo" value={callbackUrl}/>
                     <Button className=" bg-[var(--secondary)] hover:bg-[var(--secondary-light)] text-black transition-transform duration-200 hover:scale-105">
                         Sign In
                     </Button>            
-                    <div className="flex h-8 items-end space-x-1" aria-live="polite" aria-atomic="true" >
+                    <div className="flex h-8 items-end space-x-1" aria-live="polite" aria-atomic="true" aria-disabled={isPending} >
                         {errorMessage && (
                             <>
                             <p className="text-sm text-red-800">{errorMessage}</p>
