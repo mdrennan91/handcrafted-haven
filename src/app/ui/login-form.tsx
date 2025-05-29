@@ -26,11 +26,11 @@ export default function LoginForm() {
                   Please log in to continue.</h1>
                 <div className="w-full">
                     <div>
-                    <label className="mb-3 mt-5 block text-xs font-medium text-[var(--accent1)]"
+                    <label className="mb-3 mt-5 block text-xs font-medium text-[var(--primary-light)]"
                             htmlFor="email">
                         Email
                         <input 
-                            className="peer block w-full rounded-2xl border border-gray-300 py-0.5 text-sm outline-2 placeholder:text-gray-400" 
+                            className="peer block w-full rounded-2xl border border-gray-300 py-0.5 text-sm outline-2 placeholder:text-gray-400)]" 
                             placeholder="Enter email address" 
                             id="email"
                             name="email"
@@ -39,14 +39,15 @@ export default function LoginForm() {
                     </label> 
                     </div>
                 <div className="mt-5"></div>
-                <label className="mb-3 mt-5 block text-xs font-medium text-[var(--accent1)]"
+                <label className="mb-3 mt-5 block text-xs font-medium text-[var(--primary-light)]"
                         htmlFor="password">
                     Password
                     <input 
                         className="peer block w-full rounded-2xl border border-gray-300 py-0.5 text-sm outline-2 placeholder:text-gray-400" 
                         placeholder="Password"
                         id="password"                        
-                        type="password" />
+                        type="password"
+                        name="password" />
                 </label>
                 </div>
                 <div>
