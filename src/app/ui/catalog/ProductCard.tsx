@@ -1,10 +1,11 @@
-'use client';
+"use client";
 
-import Image from 'next/image';
-import Link from 'next/link';
-import { Button } from '@ui/button';
-import { ShoppingCart } from 'lucide-react';
-import { addToCart } from '@/app/lib/cart';
+import Image from "next/image";
+import Link from "next/link";
+import { Button } from "@ui/button";
+import { ShoppingCart } from "lucide-react";
+import { addToCart } from "@/app/lib/cart";
+import { useState } from "react";
 
 export type ProductCardProps = {
   id: string;
@@ -12,12 +13,18 @@ export type ProductCardProps = {
   price: number;
   imageUrl: string;
   seller: {
-  id: string;
-  name: string;
+    id: string;
+    name: string;
   };
 };
 
-export default function ProductCard({ product }: { product: ProductCardProps }) {
+export default function ProductCard({
+  product,
+}: {
+  product: ProductCardProps;
+}) {
+  const [wiggle, setWiggle] = useState(false);
+
   const handleAddToCart = () => {
     addToCart({
       id: product.id,
@@ -26,6 +33,8 @@ export default function ProductCard({ product }: { product: ProductCardProps }) 
       imageUrl: product.imageUrl,
       quantity: 1,
     });
+    setWiggle(true);
+    setTimeout(() => setWiggle(false), 500);
   };
 
   return (
@@ -45,7 +54,7 @@ export default function ProductCard({ product }: { product: ProductCardProps }) 
           ${(product.price / 100).toFixed(2)}
         </span>
         <p className="mt-2 text-sm text-gray-500">
-          by{' '}
+          by{" "}
           <Link
             href={`/sellers/${product.seller.id}`}
             className="text-gray-700 font-semibold hover:text-[var(--secondary)] transition"
@@ -54,19 +63,15 @@ export default function ProductCard({ product }: { product: ProductCardProps }) 
           </Link>
         </p>
         <div className="mt-4">
-          <Link href={`/products/${product.id}`}>
+          <Link href={`/products/${product.id}`} className="inline-block">
             <Button>View Product</Button>
           </Link>
         </div>
       </div>
 
-      <button
-        type="button"
-        onClick={handleAddToCart}
-        className="absolute bottom-4 right-4 bg-gray-100 hover:bg-gray-200 p-2 rounded-full shadow-md"
-      >
-        <ShoppingCart size={16} />
-      </button>
+      <Button type="button" variant="cartButton" onClick={handleAddToCart}>
+        <ShoppingCart size={16} className={wiggle ? "animate-wiggle" : ""} />
+      </Button>
     </div>
   );
 }

@@ -37,7 +37,7 @@ export default function Footer() {
             className="place-self-start"
           />
         </Link>
-        <div className="flex flex-col justify-evenly md:flex-row w-full text-center justify-self-center">
+        <div className="flex flex-col justify-center md:flex-row w-full text-center justify-self-center">
           {links.map((link) => (
             <Link
               key={link.name}
