@@ -11,7 +11,7 @@ const sql = postgres(process.env.DATABASE_URL!, {
 });
 
 type Product = {
-  id: string;
+  id: string;  
   inv_title: string;
   inv_price: number;
   seller_id: string;
