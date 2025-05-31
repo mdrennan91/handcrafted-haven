@@ -1,5 +1,5 @@
 'use server';
-import { getProductById, updateProduct } from '@/app/seed/route';
+import { getProductById, updateProduct } from '../../seed/route';
 
 export default async function EditProduct({ id }: { id: string }) {
   const product = await getProductById(id);
@@ -24,7 +24,6 @@ export default async function EditProduct({ id }: { id: string }) {
             id="inv_title"
             name="inv_title"
             defaultValue={product.inv_title}
-            required
             className="mt-1 block w-full border-gray-300 rounded-md shadow-sm"
           />
         </div>
@@ -40,7 +39,6 @@ export default async function EditProduct({ id }: { id: string }) {
             name="inv_description"
             rows={4}
             defaultValue={product.inv_description}
-            required
             className="mt-1 block w-full border-gray-300 rounded-md shadow-sm"
           />
         </div>
@@ -56,7 +54,6 @@ export default async function EditProduct({ id }: { id: string }) {
             id="inv_price"
             name="inv_price"
             defaultValue={product.inv_price}
-            required
             className="mt-1 block w-full border-gray-300 rounded-md shadow-sm"
           />
         </div>
