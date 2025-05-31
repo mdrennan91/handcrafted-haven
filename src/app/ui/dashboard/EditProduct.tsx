@@ -1,5 +1,6 @@
 'use server';
 import { getProductById, updateProduct } from '../../seed/route';
+import DeleteProductButton from './DeleteProductButton';
 
 export default async function EditProduct({ id }: { id: string }) {
   const product = await getProductById(id);
@@ -109,6 +110,7 @@ export default async function EditProduct({ id }: { id: string }) {
           Update Product
         </button>
       </form>
+      <DeleteProductButton id={id} />
     </main>
   );
 }
