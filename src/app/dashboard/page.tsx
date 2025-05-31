@@ -26,17 +26,16 @@ type Product = {
   featured: boolean;
 };
 
-export default async function Seller({}: // params,
-{
-  params: Promise<{ id: string }>;
-}) {
-  // const { id } = await params;
-  const sellerId = '96f2d901-d2ab-4660-8db7-2cc7b04aea7d';
+// export default async function Seller({ params }: { params: { id: string } }) {
+// const { id } = params;
+export default async function SellerDashboad() {
+  // For simplicity, using a hardcoded ID
+  const id = '96f2d901-d2ab-4660-8db7-2cc7b04aea7d';
 
   const sellerResult = await sql<Seller[]>`
     SELECT id, name, specialty, image_url, rating
     FROM sellers
-    WHERE id = ${sellerId}
+    WHERE id = ${id}
   `;
 
   const seller = sellerResult[0];
@@ -48,7 +47,7 @@ export default async function Seller({}: // params,
   const products = await sql<Product[]>`
     SELECT *
     FROM inventory
-    WHERE seller_id = ${sellerId}
+    WHERE seller_id = ${id}
   `;
 
   return (
@@ -92,9 +91,11 @@ export default async function Seller({}: // params,
             ➕ Add Product
           </button>
         </Link>
-        <button className="bg-blue-600 text-white px-4 py-2 rounded-lg border border-gray-200 shadow-md hover:shadow-lg hover:bg-blue-700 transition">
-          ✏️ Edit Product
-        </button>
+        <Link href="/dashboard/products">
+          <button className="bg-blue-600 text-white px-4 py-2 rounded-lg border border-gray-200 shadow-md hover:shadow-lg hover:bg-blue-700 transition">
+            ✏️ Edit Product
+          </button>
+        </Link>
         <button className="bg-red-600 text-white px-4 py-2 rounded-lg border border-gray-200 shadow-md hover:shadow-lg hover:bg-red-700 transition">
           ❌ Delete Product
         </button>
