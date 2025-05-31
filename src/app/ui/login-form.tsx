@@ -1,7 +1,5 @@
 'use client';
 
-//still need to add refernce for Register page;
-//css/tailwind classes; formAction and useActionState stuff, authentication
 // send user back to /dashboard ???
 
 import { lusitana } from '@/app/ui/fonts';
@@ -23,14 +21,14 @@ export default function LoginForm() {
         <form action={formAction} className="space-y-3.5">
             <div className="flex-1 rounded-lg bg-[var(--accent1)] px-5 pb-4 pt-9">
                 <h1 className={`${lusitana.className} mb-3 text-2xl text-[var(--primary-light)]`}>
-                  Please log in to continue.</h1>
+                  Please sign in to continue.</h1>
                 <div className="w-full">
                     <div>
-                    <label className="mb-3 mt-5 block text-xs font-medium text-[var(--primary-light)]"
+                    <label className="mb-3 mt-5 block text-sm/8 font-medium text-[var(--primary-light)]"
                             htmlFor="email">
                         Email
                         <input 
-                            className="peer block w-full rounded-2xl border border-gray-300 py-0.5 text-sm outline-2 placeholder:text-gray-400)]" 
+                            className="peer block w-full rounded-xl border border-gray-300 px-4 py-2 text-sm outline-2 placeholder:text-gray-400 )]" 
                             placeholder="Enter email address" 
                             id="email"
                             name="email"
@@ -39,11 +37,11 @@ export default function LoginForm() {
                     </label> 
                     </div>
                 <div className="mt-5"></div>
-                <label className="mb-3 mt-5 block text-xs font-medium text-[var(--primary-light)]"
+                <label className="mb-3 mt-5 block text-sm/8 font-medium text-[var(--primary-light)]"
                         htmlFor="password">
                     Password
                     <input 
-                        className="peer block w-full rounded-2xl border border-gray-300 py-0.5 text-sm outline-2 placeholder:text-gray-400" 
+                        className="peer block w-full rounded-xl border border-gray-300 px-4 py-2 text-sm outline-2 placeholder:text-gray-400" 
                         placeholder="Password"
                         id="password"                        
                         type="password"
