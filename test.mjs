@@ -1,3 +1,5 @@
+//test stored password
+
 import bcrypt from 'bcryptjs';
 
 const inputPassword = 'Password1';
