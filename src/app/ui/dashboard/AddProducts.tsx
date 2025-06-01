@@ -1,7 +1,7 @@
-import { addProduct } from '../../seed/route';
+import { addProduct } from "@/app/lib/productActions";
 
 export default function AddProducts() {
-  const sellerId = '96f2d901-d2ab-4660-8db7-2cc7b04aea7d';
+  const sellerId = "96f2d901-d2ab-4660-8db7-2cc7b04aea7d";
 
   return (
     <main className="p-6 max-w-4xl mx-auto">

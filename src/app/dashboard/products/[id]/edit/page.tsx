@@ -1,9 +1,9 @@
-import EditProduct from '@/app/ui/dashboard/EditProduct';
+import EditProduct from "@/app/ui/dashboard/EditProduct";
 
-export default function EditProductPage({
+export default async function EditProductPage({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
-  return <EditProduct id={params.id} />;
+  return <EditProduct id={(await params).id} />;
 }

@@ -1,10 +1,10 @@
-import postgres from 'postgres';
-import Image from 'next/image';
-import ProductCard from '@ui/catalog/ProductCard';
-import Link from 'next/link';
+import postgres from "postgres";
+import Image from "next/image";
+import ProductCard from "@ui/catalog/ProductCard";
+import Link from "next/link";
 
 const sql = postgres(process.env.DATABASE_URL!, {
-  ssl: 'require',
+  ssl: "require",
   prepare: false,
 });
 
@@ -26,11 +26,11 @@ type Product = {
   featured: boolean;
 };
 
-// export default async function Seller({ params }: { params: { id: string } }) {
-// const { id } = params;
+// export default async function Seller({ params }: { params: Promise<{ id: string }> }) {
+// const { id } = await params;
 export default async function SellerDashboad() {
   // For simplicity, using a hardcoded ID
-  const id = '96f2d901-d2ab-4660-8db7-2cc7b04aea7d';
+  const id = "96f2d901-d2ab-4660-8db7-2cc7b04aea7d";
 
   const sellerResult = await sql<Seller[]>`
     SELECT id, name, specialty, image_url, rating
@@ -76,7 +76,7 @@ export default async function SellerDashboad() {
               id: product.id,
               title: product.inv_title,
               price: product.inv_price,
-              imageUrl: '/placeholder.png',
+              imageUrl: "/placeholder.png",
               seller: {
                 id: seller.id,
                 name: seller.name,

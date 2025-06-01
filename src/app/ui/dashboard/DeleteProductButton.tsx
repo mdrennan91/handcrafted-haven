@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import { deleteProduct } from '@/app/seed/route';
+import { deleteProduct } from "@/app/lib/productActions";
 
 export default function DeleteProductButton({ id }: { id: string }) {
   const handleDelete = (e: React.FormEvent) => {
-    if (!confirm('Be careful! Are you sure you want to delete this product?')) {
+    if (!confirm("Be careful! Are you sure you want to delete this product?")) {
       e.preventDefault();
     }
   };

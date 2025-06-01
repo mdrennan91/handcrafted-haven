@@ -1,6 +1,7 @@
-'use server';
-import { getProductById, updateProduct } from '../../seed/route';
-import DeleteProductButton from './DeleteProductButton';
+"use server";
+
+import { getProductById, updateProduct } from "@/app/lib/productActions";
+import DeleteProductButton from "./DeleteProductButton";
 
 export default async function EditProduct({ id }: { id: string }) {
   const product = await getProductById(id);
