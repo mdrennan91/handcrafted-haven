@@ -1,4 +1,7 @@
+'use server';
+
 import postgres from 'postgres';
+// import { getServerSession } from "next-auth";
 
 const sql = postgres(process.env.DATABASE_URL!, {
   ssl: 'require',
