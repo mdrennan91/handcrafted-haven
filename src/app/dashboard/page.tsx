@@ -1,3 +1,4 @@
+
 import postgres from "postgres";
 import Image from "next/image";
 import ProductCard from "@ui/catalog/ProductCard";

@@ -1,18 +1,17 @@
-import Image from 'next/image';
-import { lusitana } from '../ui/fonts';
-import CatalogGrid from '@ui/catalog/CatalogGrid';
-import Link from 'next/link';
-import postgres from 'postgres';
-import { Button } from '@ui/button';
-
+import Image from "next/image";
+import { lusitana } from "../ui/fonts";
+import CatalogGrid from "@ui/catalog/CatalogGrid";
+import Link from "next/link";
+import postgres from "postgres";
+import { Button } from "@ui/button";
 
 const sql = postgres(process.env.DATABASE_URL!, {
-  ssl: 'require',
+  ssl: "require",
   prepare: false,
 });
 
 type Product = {
-  id: string;
+  id: string;  
   inv_title: string;
   inv_price: number;
   seller_id: string;
@@ -44,7 +43,6 @@ export default async function Content() {
   return (
     <main className="bg-[var(--accent1-light)] px-4 py-6">
       <div className="max-w-7xl mx-auto">
-        
         {/* Hero Section */}
         <section className="relative w-full h-[500px] mb-12 overflow-hidden rounded-xl shadow-sm border border-gray-200">
           <Image
@@ -63,7 +61,11 @@ export default async function Content() {
                 Start selling your handmade products today.
               </p>
               <Link href="/catalog">
-                <Button className="bg-[var(--secondary)] hover:bg-[var(--secondary-light)] text-black transition-transform duration-200 hover:scale-105">
+                <Button
+                  type="button"
+                  variant="secondary"
+                  className="transition-transform duration-200 hover:scale-105"
+                >
                   Sign Up Today! &rarr;
                 </Button>
               </Link>
@@ -84,7 +86,7 @@ export default async function Content() {
                 id: p.id,
                 title: p.inv_title,
                 price: p.inv_price,
-                imageUrl: '/placeholder.png',
+                imageUrl: "/placeholder.png",
                 seller: {
                   id: p.seller_id,
                   name: p.name,
@@ -115,7 +117,9 @@ export default async function Content() {
                   height={200}
                   className="rounded-md object-cover w-full h-40"
                 />
-                <h3 className="mt-3 text-lg font-semibold text-gray-900">{seller.name}</h3>
+                <h3 className="mt-3 text-lg font-semibold text-gray-900">
+                  {seller.name}
+                </h3>
                 <p className="text-sm text-gray-500">{seller.specialty}</p>
                 <p className="text-sm text-yellow-600">⭐ {seller.rating}</p>
               </Link>

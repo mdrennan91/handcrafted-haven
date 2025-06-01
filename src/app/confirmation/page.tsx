@@ -1,14 +1,14 @@
-'use client';
+"use client";
 
-import { useEffect } from 'react';
-import { Button } from '@/app/ui/button';
-import Link from 'next/link';
-import Image from 'next/image';
+import { useEffect } from "react";
+import { Button } from "@/app/ui/button";
+import Link from "next/link";
+import Image from "next/image";
 
 export default function ConfirmationPage() {
   useEffect(() => {
-    localStorage.removeItem('cart');
-    window.dispatchEvent(new Event('cartUpdated'));
+    localStorage.removeItem("cart");
+    window.dispatchEvent(new Event("cartUpdated"));
   }, []);
 
   return (
@@ -21,17 +21,16 @@ export default function ConfirmationPage() {
         className="mb-6 rounded shadow-md"
       />
 
-      <h1 className="text-2xl font-bold mb-4">
-        Thank you for your purchase!
-      </h1>
+      <h1 className="text-2xl font-bold mb-4">Thank you for your purchase!</h1>
 
       <p className="text-gray-700 max-w-md mb-6">
         We received your order and will send you an email when your items ship.
-        Thank you for supporting our artisans — your purchase makes a difference.
+        Thank you for supporting our artisans — your purchase makes a
+        difference.
       </p>
 
       <Link href="/">
-        <Button className="bg-[var(--secondary)] hover:bg-[var(--secondary-light)] text-black">
+        <Button type="button" variant="secondary">
           Back to Home
         </Button>
       </Link>
