@@ -19,6 +19,7 @@ type ProductWithSeller = {
   seller_id: string;
   featured: boolean;
   name: string;
+  image_url: string;
 };
 
 type Review = {
@@ -29,6 +30,7 @@ type Review = {
   comment: string;
   created_at: string;
   name: string | null; // User's name, will be null for unauthenticated reviews
+  image_url: string;
 };
 
 export default async function ProductPage({
@@ -64,7 +66,7 @@ export default async function ProductPage({
     <main className="p-6 max-w-3xl mx-auto">
       <h1 className="text-2xl font-bold mb-4">{product.inv_title}</h1>
       <Image
-        src="/placeholder.png"
+        src={product.image_url || "/placeholder.png"}
         alt={product.inv_title}
         width={600}
         height={400}

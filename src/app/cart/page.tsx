@@ -5,6 +5,7 @@ import CartItem from "@/app/ui/cart/CartItem";
 import { CartItemType, getCart } from "@/app/lib/cart";
 import Link from "next/link";
 import { Button } from "@/app/ui/button";
+import { getAverageRatings } from "@/app/lib/productActions";
 
 export default function CartPage() {
   const [cartItems, setCartItems] = useState<CartItemType[]>([]);
@@ -23,22 +24,7 @@ export default function CartPage() {
     if (productIds.length > 0) {
       const fetchAverageRatings = async () => {
         try {
-          const response = await fetch("/api/products/average-ratings", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ productIds }),
-          });
-
-          if (!response.ok) {
-            console.error("Failed to fetch average ratings");
-            setLoadingRatings(false);
-            return;
-          }
-
-          const ratingsMap: { [productId: string]: number } =
-            await response.json();
+          const ratingsMap = await getAverageRatings(productIds);
 
           const cartItemsWithRatings = storedCart.map((item) => ({
             ...item,

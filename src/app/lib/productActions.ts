@@ -67,3 +67,58 @@ export async function deleteProduct(id: string) {
   revalidatePath('/dashboard');
   redirect('/dashboard');
 }
+
+export async function addReview(productId: string, rating: number, comment: string) {
+  'use server';
+
+  // TODO: Get the actual user_id from your authentication system
+  const user_id = null; // Set user_id to null for unauthenticated users
+
+  if (!rating || !comment) {
+    // In a real app, you might throw an error or return a specific response
+    console.error('Rating and comment are required');
+    return { error: 'Rating and comment are required' };
+  }
+
+  try {
+    await sql`
+      INSERT INTO reviews (inventory_id, user_id, rating, comment)
+      VALUES (${productId}, ${user_id}, ${rating}, ${comment})
+    `;
+
+    revalidatePath(`/products/${productId}`);
+    return { success: true };
+
+  } catch (error) {
+    console.error('Error adding review:', error);
+    return { error: 'Failed to add review' };
+  }
+}
+
+export async function getAverageRatings(productIds: string[]): Promise<{ [productId: string]: number }> {
+  'use server';
+
+  if (!Array.isArray(productIds) || productIds.length === 0) {
+    return {};
+  }
+
+  try {
+    const averageRatings = await sql`
+      SELECT inventory_id, AVG(rating) as average_rating
+      FROM reviews
+      WHERE inventory_id = ANY(${productIds})
+      GROUP BY inventory_id;
+    `;
+
+    const ratingsMap: { [productId: string]: number } = {};
+    averageRatings.forEach(row => {
+      ratingsMap[row.inventory_id] = parseFloat(row.average_rating as string);
+    });
+
+    return ratingsMap;
+  } catch (error) {
+    console.error('Error fetching average ratings:', error);
+    // Return an empty map or re-throw the error depending on desired behavior
+    return {};
+  }
+}

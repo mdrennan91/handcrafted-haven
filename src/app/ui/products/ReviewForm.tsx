@@ -3,7 +3,7 @@
 import { useState } from "react";
 import InteractiveStarRating from "./InteractiveStarRating";
 import { Button } from "../button";
-import { useRouter } from "next/navigation";
+import { addReview } from "@/app/lib/productActions";
 
 export default function ReviewForm({ productId }: { productId: string }) {
   const [rating, setRating] = useState(0);
@@ -12,8 +12,6 @@ export default function ReviewForm({ productId }: { productId: string }) {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
 
-  const router = useRouter();
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSubmitting(true);
@@ -21,23 +19,15 @@ export default function ReviewForm({ productId }: { productId: string }) {
     setSuccess(false);
 
     try {
-      const response = await fetch(`/api/products/${productId}/reviews`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ rating, comment }),
-      });
+      const result = await addReview(productId, rating, comment);
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || "Failed to add review");
+      if (result.error) {
+        throw new Error(result.error);
       }
 
       setSuccess(true);
       setRating(0);
       setComment("");
-      router.refresh();
     } catch (err: unknown) {
       if (err instanceof Error) {
         setError(err.message);
