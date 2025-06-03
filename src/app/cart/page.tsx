@@ -9,6 +9,7 @@ import { Button } from "@/app/ui/button";
 export default function CartPage() {
   const [cartItems, setCartItems] = useState<CartItemType[]>([]);
   const [total, setTotal] = useState(0);
+  const [loadingRatings, setLoadingRatings] = useState(true);
 
   useEffect(() => {
     const storedCart = getCart();
@@ -16,6 +17,46 @@ export default function CartPage() {
     setTotal(
       storedCart.reduce((acc, item) => acc + item.price * item.quantity, 0)
     );
+
+    const productIds = storedCart.map((item) => item.id);
+
+    if (productIds.length > 0) {
+      const fetchAverageRatings = async () => {
+        try {
+          const response = await fetch("/api/products/average-ratings", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ productIds }),
+          });
+
+          if (!response.ok) {
+            console.error("Failed to fetch average ratings");
+            setLoadingRatings(false);
+            return;
+          }
+
+          const ratingsMap: { [productId: string]: number } =
+            await response.json();
+
+          const cartItemsWithRatings = storedCart.map((item) => ({
+            ...item,
+            averageRating: ratingsMap[item.id] || 0, // Assign 0 if no rating found
+          }));
+
+          setCartItems(cartItemsWithRatings);
+        } catch (error) {
+          console.error("Error fetching average ratings:", error);
+        } finally {
+          setLoadingRatings(false);
+        }
+      };
+
+      fetchAverageRatings();
+    } else {
+      setLoadingRatings(false);
+    }
   }, []);
 
   const refreshCart = () => {
@@ -24,13 +65,17 @@ export default function CartPage() {
     setTotal(
       updated.reduce((acc, item) => acc + item.price * item.quantity, 0)
     );
+    // Note: Average ratings are not re-fetched on refreshCart currently.
+    // If you need real-time average ratings, you would need to refetch here as well.
   };
 
   return (
     <main className="p-6 max-w-4xl mx-auto">
       <h1 className="text-2xl font-bold mb-6">Cart Summary</h1>
 
-      {cartItems.length === 0 ? (
+      {loadingRatings ? (
+        <p>Loading cart...</p>
+      ) : cartItems.length === 0 ? (
         <p>Your cart is empty.</p>
       ) : (
         <>

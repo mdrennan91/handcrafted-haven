@@ -6,6 +6,7 @@ import { Button } from "@ui/button";
 import { ShoppingCart } from "lucide-react";
 import { addToCart } from "@/app/lib/cart";
 import { useState } from "react";
+import { StarDisplay } from "../products/Rating";
 
 export type ProductCardProps = {
   id: string;
@@ -16,6 +17,7 @@ export type ProductCardProps = {
     id: string;
     name: string;
   };
+  averageRating?: number;
 };
 
 export default function ProductCard({
@@ -49,10 +51,19 @@ export default function ProductCard({
         />
       </div>
       <div className="mt-4">
-        <p className="text-sm font-semibold text-gray-900">{product.title}</p>
+        <p className="text-sm font-semibold text-gray-900 max-w-36">
+          {product.title}
+        </p>
         <span className="inline-block bg-gray-100 text-green-600 text-xs font-semibold px-2 py-1 rounded-full">
           ${(product.price / 100).toFixed(2)}
         </span>
+
+        {product.averageRating !== undefined && (
+          <div className="absolute right-4 top-54 cursor-default">
+            <StarDisplay rating={product.averageRating} />
+          </div>
+        )}
+
         <p className="mt-2 text-sm text-gray-500">
           by{" "}
           <Link

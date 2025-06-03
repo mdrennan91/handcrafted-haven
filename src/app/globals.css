@@ -37,6 +37,11 @@ h4 {
   @apply text-xl font-bold ;
 }
 
+h5 {
+  @apply text-lg font-semibold ;
+}
+
+
 @theme {
   --animate-wiggle: wiggle .5s ease-in-out;
 

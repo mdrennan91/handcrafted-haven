@@ -1,9 +1,10 @@
-'use client';
+"use client";
 
-import Image from 'next/image';
-import { Minus, Plus, Trash2 } from 'lucide-react';
-import { CartItemType, updateQuantity, removeFromCart } from '@/app/lib/cart';
-import { useState } from 'react';
+import Image from "next/image";
+import { Minus, Plus, Trash2 } from "lucide-react";
+import { CartItemType, updateQuantity, removeFromCart } from "@/app/lib/cart";
+import { useState } from "react";
+import { StarDisplay } from "@/app/ui/products/Rating";
 
 export default function CartItem({
   item,
@@ -40,6 +41,11 @@ export default function CartItem({
           <p className="text-sm text-gray-500">
             ${(item.price / 100).toFixed(2)} each
           </p>
+          {item.averageRating !== undefined && (
+            <div className="mt-1">
+              <StarDisplay rating={item.averageRating} />
+            </div>
+          )}
         </div>
       </div>
 
