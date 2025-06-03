@@ -8,8 +8,8 @@ import { getToken } from 'next-auth/jwt';
 // export default NextAuth(authConfig).auth;
 
 //add logic for customer/base user. This covers Seller
-export async function middleware(req: NextRequest) {
-    const token = await getToken({req});
+export default async function middleware(req: NextRequest) {
+    const token = await getToken({req, secret: process.env.AUTH_SECRET});
 
     const isSellerRoute = req.nextUrl.pathname.startsWith('/dashboard');
 
