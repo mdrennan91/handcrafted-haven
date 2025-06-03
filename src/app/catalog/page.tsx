@@ -1,7 +1,8 @@
-import postgres from 'postgres';
-import CatalogGrid from '@ui/catalog/CatalogGrid';
+import postgres from "postgres";
+import CatalogGrid from "@ui/catalog/CatalogGrid";
+import { getAverageRatings } from "@/app/lib/productActions";
 
-const sql = postgres(process.env.DATABASE_URL!, { ssl: 'require' });
+const sql = postgres(process.env.DATABASE_URL!, { ssl: "require" });
 
 type Product = {
   id: string;
@@ -12,6 +13,7 @@ type Product = {
   seller_id: string;
   featured: boolean;
   name: string; // seller name
+  image_url: string;
 };
 
 export default async function CatalogPage() {
@@ -20,6 +22,11 @@ export default async function CatalogPage() {
     FROM inventory i
     JOIN sellers s ON i.seller_id = s.id
   `;
+
+  // Get product IDs for fetching average ratings
+  const productIds = products.map((product) => product.id);
+
+  const ratingsMap = await getAverageRatings(productIds);
 
   return (
     <main className="p-6">
@@ -31,11 +38,12 @@ export default async function CatalogPage() {
             id: product.id,
             title: product.inv_title,
             price: product.inv_price,
-            imageUrl: '/placeholder.png', // Replace when you store real images
+            imageUrl: product.image_url || "/placeholder.png",
             seller: {
               id: product.seller_id,
               name: product.name,
             },
+            averageRating: ratingsMap[product.id] || 0, // Add average rating, default to 0
           }))}
         />
       </section>

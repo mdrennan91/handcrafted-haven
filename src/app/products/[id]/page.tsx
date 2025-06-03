@@ -1,11 +1,12 @@
-import postgres from 'postgres';
+import postgres from "postgres";
 import Image from "next/image";
 import Link from "next/link";
-import AddToCartButton from '@/app/ui/cart/AddToCartButton';
-
+import AddToCartButton from "@/app/ui/cart/AddToCartButton";
+import LeaveReviewButtonAndForm from "@/app/ui/products/LeaveReviewButtonAndForm";
+import ReviewList from "@/app/ui/products/ReviewList";
 
 const sql = postgres(process.env.DATABASE_URL!, {
-  ssl: 'require',
+  ssl: "require",
   prepare: false,
 });
 
@@ -18,9 +19,25 @@ type ProductWithSeller = {
   seller_id: string;
   featured: boolean;
   name: string;
+  image_url: string;
 };
 
-export default async function ProductPage({ params }: { params: Promise<{ id: string }> }) {
+type Review = {
+  id: string;
+  inventory_id: string;
+  user_id: string | null;
+  rating: number;
+  comment: string;
+  created_at: string;
+  name: string | null; // User's name, will be null for unauthenticated reviews
+  image_url: string;
+};
+
+export default async function ProductPage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
   const { id } = await params;
   const productResult = await sql<ProductWithSeller[]>`
     SELECT i.*, s.name
@@ -35,11 +52,21 @@ export default async function ProductPage({ params }: { params: Promise<{ id: st
     return <p className="p-6">Product not found.</p>;
   }
 
+  // Fetch reviews for this product
+  const reviewsResult = await sql<Review[]>`
+    SELECT r.*
+    FROM reviews r
+    WHERE r.inventory_id = ${id}
+    ORDER BY r.created_at DESC;
+  `;
+
+  const reviews = reviewsResult;
+
   return (
     <main className="p-6 max-w-3xl mx-auto">
       <h1 className="text-2xl font-bold mb-4">{product.inv_title}</h1>
       <Image
-        src="/placeholder.png"
+        src={product.image_url || "/placeholder.png"}
         alt={product.inv_title}
         width={600}
         height={400}
@@ -66,11 +93,13 @@ export default async function ProductPage({ params }: { params: Promise<{ id: st
             id: product.id,
             title: product.inv_title,
             price: product.inv_price,
-            imageUrl: '/placeholder.png',
+            imageUrl: "/placeholder.png",
             quantity: 1,
           }}
         />
       </div>
+      <LeaveReviewButtonAndForm productId={product.id} />
+      <ReviewList reviews={reviews} />
     </main>
   );
 }

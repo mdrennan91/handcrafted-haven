@@ -4,6 +4,7 @@ import CatalogGrid from "@ui/catalog/CatalogGrid";
 import Link from "next/link";
 import postgres from "postgres";
 import { Button } from "@ui/button";
+import { getAverageRatings } from "@/app/lib/productActions";
 
 const sql = postgres(process.env.DATABASE_URL!, {
   ssl: "require",
@@ -11,11 +12,13 @@ const sql = postgres(process.env.DATABASE_URL!, {
 });
 
 type Product = {
-  id: string;  
+  id: string;
   inv_title: string;
   inv_price: number;
   seller_id: string;
   name: string;
+  averageRating?: number;
+  image_url: string;
 };
 
 type Seller = {
@@ -28,7 +31,7 @@ type Seller = {
 
 export default async function Content() {
   const products = await sql<Product[]>`
-    SELECT i.id, i.inv_title, i.inv_price, i.seller_id, s.name
+    SELECT i.id, i.inv_title, i.inv_price, i.image_url, i.seller_id, s.name
     FROM inventory i
     JOIN sellers s ON i.seller_id = s.id
     LIMIT 4
@@ -39,6 +42,12 @@ export default async function Content() {
     FROM sellers
     LIMIT 3
   `;
+
+  // Get product IDs for fetching average ratings
+  const productIds = products.map((product) => product.id);
+
+  // Fetch average ratings using the server action
+  const ratingsMap = await getAverageRatings(productIds);
 
   return (
     <main className="bg-[var(--accent1-light)] px-4 py-6">
@@ -86,11 +95,12 @@ export default async function Content() {
                 id: p.id,
                 title: p.inv_title,
                 price: p.inv_price,
-                imageUrl: "/placeholder.png",
+                imageUrl: p.image_url || "/placeholder.png",
                 seller: {
                   id: p.seller_id,
                   name: p.name,
                 },
+                averageRating: ratingsMap[p.id] || 0,
               }))}
             />
           </div>
