@@ -2,14 +2,15 @@ import type { NextAuthConfig } from 'next-auth';
 
 //******need to change path to seller's dashboard when that is figured out.***********/
 export const authConfig = {
+  secret: process.env.NEXTAUTH_SECRET,
   pages: {
     signIn: '/login',
   },
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        token.role = user.user_type;
-        token.id = user.user_id;
+        token.role = user.role;
+        token.id = user.id;
       }
       return token;
     },

@@ -27,29 +27,26 @@ export const { auth, signIn, signOut } = NextAuth({
   providers: [
     Credentials({
       async authorize(credentials) {
-        const email = credentials?.email;
-        const password = credentials?.password;
-
-        // console.log('⏩ Credentials received:', { email, password });
-
         const parsedCredentials = z
           .object({ email: z.string().email(), password: z.string().min(7) })
           .safeParse(credentials);
 
         if (parsedCredentials.success) {
           const { email, password } = parsedCredentials.data;
-          // console.log('parsedCredentials email: ', email);
-          // console.log('parsedCredentials password: ', password);
           const user = await getUser(email);
-          // console.log('user ', user);
           if (!user) return null;
-          const passwordsMatch = await bcrypt.compare(password, user.password);
 
+          const passwordsMatch = await bcrypt.compare(password, user.password);
           if (passwordsMatch) {
-            // console.log('passwordMatch/user: ', user);
-            return user;
+            return {
+              id: user.user_id,
+              email: user.email,
+              role: user.user_type,
+              password: user.password,
+            };
           }
         }
+
         console.log('Invalid credentials');
         return null;
       },
