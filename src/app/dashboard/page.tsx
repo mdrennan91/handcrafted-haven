@@ -1,11 +1,12 @@
-
-import postgres from "postgres";
-import Image from "next/image";
-import ProductCard from "@ui/catalog/ProductCard";
-import Link from "next/link";
+import postgres from 'postgres';
+import Image from 'next/image';
+import ProductCard from '@ui/catalog/ProductCard';
+import Link from 'next/link';
+import { auth } from '../../auth';
+import { redirect } from 'next/navigation';
 
 const sql = postgres(process.env.DATABASE_URL!, {
-  ssl: "require",
+  ssl: 'require',
   prepare: false,
 });
 
@@ -31,7 +32,13 @@ type Product = {
 // const { id } = await params;
 export default async function SellerDashboad() {
   // For simplicity, using a hardcoded ID
-  const id = "96f2d901-d2ab-4660-8db7-2cc7b04aea7d";
+  const session = await auth();
+
+  if (!session || !session.user?.id) {
+    return <p className="p-6">You must be logged in to view this page.</p>;
+  }
+
+  const id = session.user.id;
 
   const sellerResult = await sql<Seller[]>`
     SELECT id, name, specialty, image_url, rating
@@ -42,7 +49,7 @@ export default async function SellerDashboad() {
   const seller = sellerResult[0];
 
   if (!seller) {
-    return <p className="p-6">Seller not found.</p>;
+    redirect('/sellers');
   }
 
   const products = await sql<Product[]>`
@@ -77,7 +84,7 @@ export default async function SellerDashboad() {
               id: product.id,
               title: product.inv_title,
               price: product.inv_price,
-              imageUrl: "/placeholder.png",
+              imageUrl: '/placeholder.png',
               seller: {
                 id: seller.id,
                 name: seller.name,

@@ -21,9 +21,16 @@
     "baseUrl": "src",
     "paths": {
       "@/*": ["*"],
-      "@ui/*": ["app/ui/*"]      
-    }
+      "@ui/*": ["app/ui/*"]
+    },
+    "typeRoots": ["./types", "./node_modules/@types"]
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "include": [
+    "next-env.d.ts",
+    "types",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts"
+  ],
   "exclude": ["node_modules"]
 }
