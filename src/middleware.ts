@@ -20,7 +20,7 @@ export async function middleware(req: NextRequest) {
   if (token && isSellerRoute) {
     const role = token.role;
 
-    if (role !== 'Admin' && role !== 'Seller') {
+    if (role !== 'Admin' && role !== 'Seller' && role !== 'User') {
       //Logged in but not authorized  -  create unauthorized page?
       return NextResponse.redirect(new URL('/')); //goes back to home page right now
     }
