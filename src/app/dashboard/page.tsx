@@ -2,7 +2,7 @@ import postgres from 'postgres';
 import Image from 'next/image';
 import ProductCard from '@ui/catalog/ProductCard';
 import Link from 'next/link';
-import { auth } from '../../../auth';
+import { auth } from '../../auth';
 
 const sql = postgres(process.env.DATABASE_URL!, {
   ssl: 'require',
