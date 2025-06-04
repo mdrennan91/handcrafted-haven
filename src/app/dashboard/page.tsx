@@ -3,6 +3,7 @@ import Image from 'next/image';
 import ProductCard from '@ui/catalog/ProductCard';
 import Link from 'next/link';
 import { auth } from '../../auth';
+import { redirect } from 'next/navigation';
 
 const sql = postgres(process.env.DATABASE_URL!, {
   ssl: 'require',
@@ -48,7 +49,7 @@ export default async function SellerDashboad() {
   const seller = sellerResult[0];
 
   if (!seller) {
-    return <p className="p-6">Seller not found.</p>;
+    redirect('/sellers');
   }
 
   const products = await sql<Product[]>`
