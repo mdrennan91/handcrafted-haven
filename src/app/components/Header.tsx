@@ -1,12 +1,14 @@
 import Image from "next/image";
 import Link from "next/link";
 import Nav from "../ui/nav";
-import { User } from "lucide-react";
+import { User, LogOut } from "lucide-react"; 
 import clsx from "clsx";
 import CategoryDropdown from "./CategoryDropdown";
+import { signOut, auth } from '@/auth';
 
 
-export default function Header() {
+export default async function Header() {
+  const session = await auth();
   return (
     <header className="bg-[var(--primary)] shadow-sm py-4">
       <div className="max-w-7xl mx-auto flex items-center gap-4">
@@ -51,21 +53,41 @@ export default function Header() {
             </button>
           </div>
         </div>
-
-        {/* Right: Nav + Login */}
+        
+        {/** Right: Nav + Log in/Log out */}
         <div className="flex items-center gap-2 ml-auto">
           <Nav />
-          <Link
-            href="/login"
-            title="Log in"
-            className={clsx(
-              "text-white p-3 rounded-md transition-all ease-in-out duration-300",
-              "hover:bg-[var(--secondary)]"
-            )}
-          >
-            <User className="w-5 h-5" />
-          </Link>
-        </div>
+        {/** Logic to display login or logout icon and button */}
+          {session ? (
+            <form
+              action={async () => {
+                'use server';
+                await signOut({ redirectTo: '/' });
+              }}
+            >
+              <button
+                type="submit"
+              className={clsx(
+                "text-white p-3 rounded-md transition-all ease-in-out duration-300",
+                "hover:bg-[var(--secondary)]"
+              )}
+              >
+                <LogOut className="w-6" />                
+              </button>
+            </form>
+          ) : (
+            <Link
+              href="/login"
+              title="Log in"
+              className={clsx(
+                "text-white p-3 rounded-md transition-all ease-in-out duration-300",
+                "hover:bg-[var(--secondary)]"
+              )}
+            >
+              <User className="w-5 h-5" />    
+            </Link>
+          )}
+      </div>
       </div>
     </header>
   );
