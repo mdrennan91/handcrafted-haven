@@ -4,14 +4,14 @@
 
 import { lusitana } from '@/app/ui/fonts';
 import { useActionState } from "react";
-import { authenticate } from '@/app/lib/auth';
+import { authenticate } from '@/app/lib/action';
 import { useSearchParams } from 'next/navigation';
 import { Button } from '@ui/button';
 
 export default function LoginForm() {
     
     const searchParams = useSearchParams();  //look in param for url to return to
-    const callbackUrl = searchParams.get('callbackUrl') || '/dashboard';  //send user back to page trying to enter or /dashboard
+    const callbackUrl = searchParams.get('callbackUrl') || '/';  //send user back to page trying to enter or /dashboard
     // if authentication fails, authenticate returns error string, errorMessage is set to that string, render errorMessage in form
     // formAction triggers state change, can use isPending to disable button, etc.
     const [errorMessage, formAction, isPending] = useActionState (authenticate, undefined); 
@@ -64,14 +64,5 @@ export default function LoginForm() {
                 </div>
             </div>
        </form>
-            
-
-
-                
-                
-
-
-            
-        
     );
 }
