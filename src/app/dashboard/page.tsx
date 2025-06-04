@@ -3,6 +3,7 @@ import postgres from "postgres";
 import Image from "next/image";
 import ProductCard from "@ui/catalog/ProductCard";
 import Link from "next/link";
+import { auth } from '@/auth';
 
 const sql = postgres(process.env.DATABASE_URL!, {
   ssl: "require",
@@ -32,6 +33,10 @@ type Product = {
 export default async function SellerDashboad() {
   // For simplicity, using a hardcoded ID
   const id = "96f2d901-d2ab-4660-8db7-2cc7b04aea7d";
+
+  const session = await auth();
+  console.log("session.user: ", session?.user);
+  // console.log("session.user: ", session.user);
 
   const sellerResult = await sql<Seller[]>`
     SELECT id, name, specialty, image_url, rating
