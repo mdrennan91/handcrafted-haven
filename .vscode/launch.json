@@ -13,7 +13,7 @@
       "request": "launch",
       "url": "http://localhost:3002"
     },
-    {
+    /*{
       "name": "Next.js: debug client-side (Firefox)",
       "type": "firefox",
       "request": "launch",
@@ -25,7 +25,7 @@
           "path": "${workspaceFolder}"
         }
       ]
-    },
+    },*/
     {
       "name": "Next.js: debug full stack",
       "type": "node",
