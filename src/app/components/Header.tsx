@@ -4,9 +4,11 @@ import Nav from "../ui/nav";
 import { User } from "lucide-react";
 import clsx from "clsx";
 import CategoryDropdown from "./CategoryDropdown";
+import { auth } from "@/auth";
+import LogoutButton from "../ui/logout-button";
 
-
-export default function Header() {
+export default async function Header() {
+  const session = await auth();
   return (
     <header className="bg-[var(--primary)] shadow-sm py-4">
       <div className="max-w-7xl mx-auto flex items-center gap-4">
@@ -55,16 +57,20 @@ export default function Header() {
         {/* Right: Nav + Login */}
         <div className="flex items-center gap-2 ml-auto">
           <Nav />
-          <Link
-            href="/login"
-            title="Log in"
-            className={clsx(
-              "text-white p-3 rounded-md transition-all ease-in-out duration-300",
-              "hover:bg-[var(--secondary)]"
-            )}
-          >
-            <User className="w-5 h-5" />
-          </Link>
+          {session?.user ? (
+            <LogoutButton />
+          ) : (
+            <Link
+              href="/login"
+              title="Log in"
+              className={clsx(
+                "text-white p-3 rounded-md transition-all ease-in-out duration-300",
+                "hover:bg-[var(--secondary)]"
+              )}
+            >
+              <User className="w-5 h-5" />
+            </Link>
+          )}
         </div>
       </div>
     </header>
