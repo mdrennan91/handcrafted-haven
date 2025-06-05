@@ -89,21 +89,21 @@ export default async function Content() {
               Check out our featured products
             </h2>
           </div>
-          <div className="flex justify-center">
-            <CatalogGrid
-              products={products.map((p) => ({
-                id: p.id,
-                title: p.inv_title,
-                price: p.inv_price,
-                imageUrl: p.image_url || "/placeholder.png",
-                seller: {
-                  id: p.seller_id,
-                  name: p.name,
-                },
-                averageRating: ratingsMap[p.id] || 0,
-              }))}
-            />
-          </div>
+          
+          <CatalogGrid
+            products={products.map((p) => ({
+              id: p.id,
+              title: p.inv_title,
+              price: p.inv_price,
+              imageUrl: p.image_url || "/placeholder.png",
+              seller: {
+                id: p.seller_id,
+                name: p.name,
+              },
+              averageRating: ratingsMap[p.id] || 0,
+            }))}
+          />
+          
         </section>
 
         {/* Featured Sellers */}

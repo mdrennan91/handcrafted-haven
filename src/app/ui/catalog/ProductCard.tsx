@@ -40,7 +40,7 @@ export default function ProductCard({
   };
 
   return (
-    <div className="relative rounded-xl bg-white p-4 shadow-md hover:shadow-lg transition-transform duration-200 hover:scale-[1.02] border border-gray-100">
+    <div className="w-full h-full flex flex-col justify-between rounded-xl bg-white p-4 shadow-md hover:shadow-lg transition-transform duration-200 hover:scale-[1.02] border border-gray-100">
       <div className="overflow-hidden rounded-lg bg-gray-100 h-48">
         <Image
           src={product.imageUrl}
@@ -51,7 +51,7 @@ export default function ProductCard({
         />
       </div>
       <div className="mt-4">
-        <p className="text-sm font-semibold text-gray-900 max-w-36">
+        <p className="text-sm font-semibold text-gray-900">
           {product.title}
         </p>
         <span className="inline-block bg-gray-100 text-green-600 text-xs font-semibold px-2 py-1 rounded-full">
@@ -59,7 +59,7 @@ export default function ProductCard({
         </span>
 
         {product.averageRating !== undefined && (
-          <div className="absolute right-4 top-54 cursor-default">
+          <div className="mt-2">
             <StarDisplay rating={product.averageRating} />
           </div>
         )}
