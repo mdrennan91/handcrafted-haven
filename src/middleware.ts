@@ -12,19 +12,26 @@ export async function middleware(req: NextRequest) {
   const token = await getToken({ req, secret: process.env.AUTH_SECRET });
 
   const isSellerRoute = req.nextUrl.pathname.startsWith('/dashboard');
+  const isAuthPage = req.nextUrl.pathname === '/login' || req.nextUrl.pathname === '/register';
 
-  if (!token && isSellerRoute) {
-    return NextResponse.redirect(new URL('/login', req.url));
+  // Redirect authenticated users away from auth pages
+  if (token && isAuthPage) {
+    return NextResponse.redirect(new URL('/dashboard', req.nextUrl.origin));
   }
 
+  // Redirect unauthenticated users trying to access protected route
+  if (!token && isSellerRoute) {
+    return NextResponse.redirect(new URL('/login', req.nextUrl.origin));
+  }
+
+  // Redirect unauthorized users
   if (token && isSellerRoute) {
     const role = token.role;
-
     if (role !== 'Admin' && role !== 'Seller' && role !== 'User') {
-      //Logged in but not authorized  -  create unauthorized page?
-      return NextResponse.redirect(new URL('/')); //goes back to home page right now
+      return NextResponse.redirect(new URL('/', req.nextUrl.origin));
     }
   }
+
   return NextResponse.next();
 }
 
