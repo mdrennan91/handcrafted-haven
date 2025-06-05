@@ -1,7 +1,7 @@
 'use server';
 
 import { AuthError } from 'next-auth';
-import { signIn, auth } from '../../auth';
+import { signIn, auth } from '@/auth';
 import { redirect } from 'next/navigation';
 
 export async function authenticate(
@@ -14,9 +14,12 @@ export async function authenticate(
     // console.log('Login attempt:', {
     //     formPassword: formData.get('password'),
     //     });
-    const session = await auth(); // 🔥 server-side session from your setup
+    const session = await auth(); // server-side session from setup
     const role = session?.user?.role;
-
+    
+    console.log("session.user.role: ", role);
+    console.log("in actions->authenticate");
+    
     if (role === 'Seller') {
       redirect('/dashboard');
     } else {

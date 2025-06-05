@@ -4,7 +4,7 @@
 
 import { lusitana } from '@/app/ui/fonts';
 import { useActionState } from "react";
-import { authenticate } from '@/app/lib/auth';
+import { authenticate } from '@/app/lib/actions';
 import { useSearchParams } from 'next/navigation';
 import { Button } from '@ui/button';
 
@@ -64,14 +64,5 @@ export default function LoginForm() {
                 </div>
             </div>
        </form>
-            
-
-
-                
-                
-
-
-            
-        
     );
 }

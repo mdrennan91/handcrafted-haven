@@ -33,6 +33,6 @@ export async function middleware(req: NextRequest) {
 export const config = {
   // https://nextjs.org/docs/app/building-your-application/routing/middleware#matcher
   //matcher allows you to filter Middleware to run on specific paths.
-  //   matcher: ['/((?!api|_next/static|_next/image|.*\\.png$).*)'],
-  matcher: ['/dashboard/:path*'],
+    matcher: ['/((?!api|_next/static|_next/image|.*\\.png$).*)'],
+  // matcher: ['/dashboard/:path*'],
 };
