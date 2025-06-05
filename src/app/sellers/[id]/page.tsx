@@ -23,6 +23,7 @@ type Product = {
   inv_discount: number;
   seller_id: string;
   featured: boolean;
+  image_url: string;
 };
 
 export default async function Seller({ params }: { params: Promise<{ id: string }> }) {
@@ -72,7 +73,7 @@ export default async function Seller({ params }: { params: Promise<{ id: string 
               id: product.id,
               title: product.inv_title,
               price: product.inv_price,
-              imageUrl: '/placeholder.png',
+              imageUrl: product.image_url || "/placeholder.png",
               seller: {
                 id: seller.id,
                 name: seller.name,
