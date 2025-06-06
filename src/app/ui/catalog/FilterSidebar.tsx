@@ -53,7 +53,7 @@ export default function FilterSidebar({
 
             newParams.delete("sellers");
             for (const sellerId of params.sellers) {
-                newParams.append("selelrs", sellerId)
+                newParams.append("sellers", sellerId)
             }
 
             newParams.delete("price");
@@ -87,10 +87,13 @@ export default function FilterSidebar({
             const isSelected = selectedSellers.includes(id);
             let newSells:string[];
             if(isSelected) {
-                newSells = selectedSellers.filter((category) => category!==id);            
+                newSells = selectedSellers.filter((sellers) => sellers!==id);            
             } else {
                 newSells = [...selectedSellers, id];
             }
+            console.log("Before toggle, selectedSellers: ", selectedSellers);
+            console.log("Toggling seller:", id, "-> new array: ", newSells);
+
             setSelectedSellers(newSells);
             updateURL({categories: selectedCategories, sellers: newSells, price: selectedPrice });
         }
@@ -204,15 +207,15 @@ export default function FilterSidebar({
                 show={mobileOpen}
                 as="div"
                 enter="transition ease-out duration-200"
-                enterFrom="opacity-0 translate-y-4"
-                enterTo="opacity-100 translate-y-0"
+                enterFrom="opacity-0 translate-x-4"
+                enterTo="opacity-100 translate-x-0"
                 leave="transition ease-in duration-150"
-                leaveFrom="opacity-100 translate-y-0"
-                leaveTo="opacity-0 translate-y-4"
+                leaveFrom="opacity-100 translate-x-0"
+                leaveTo="opacity-0 translate-x-4"
                 className="fixed inset-0 z-40 flex"
             >
-                <div className="fixed inset-0 bg-black bg-opacity-30" aria-hidden="true" />
-                <div className="relative ml-auto w-3/4 max-w-xs bg-white shadow-xl">
+                <div className="fixed inset-0 bg-slate-500 bg-opacity-10" aria-hidden="true" />
+                <div className="relative mr-auto w-3/4 max-w-xs bg-white shadow-xl">
                 <div className="flex items-center justify-between px-4 py-2 border-b border-gray-200">
                     <h3 className="text-lg font-semibold">Filter</h3>
                     <button
