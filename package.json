@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@headlessui/react": "^2.2.4",
     "@neondatabase/serverless": "^1.0.0",
     "bcryptjs": "^3.0.2",
     "clsx": "^2.1.1",

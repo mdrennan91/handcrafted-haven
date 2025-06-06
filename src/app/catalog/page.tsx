@@ -2,6 +2,7 @@ import postgres from "postgres";
 import CatalogGrid from "@ui/catalog/CatalogGrid";
 import { getAverageRatings } from "@/app/lib/productActions";
 
+
 const sql = postgres(process.env.DATABASE_URL!, { ssl: "require" });
 
 type Product = {
@@ -31,8 +32,8 @@ export default async function CatalogPage() {
   return (
     <main className="p-6">
       <h1 className="text-xl md:text-2xl font-bold mb-6">Catalog</h1>
-
-      <section className="rounded-xl bg-white p-6 shadow-sm border border-gray-200">
+      
+      <section className="rounded-xl bg-white p-6 shadow-sm border border-gray-200">        
         <CatalogGrid
           products={products.map((product) => ({
             id: product.id,
