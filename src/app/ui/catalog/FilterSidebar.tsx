@@ -176,7 +176,7 @@ export default function FilterSidebar({
                 <div className="space-y-1">
                     {[
                     { label: "Under $25",   value: "under-25" },
-                    { label: "$25 - $74.99", value: "25-75" },
+                    { label: "$25 - $74.99", value: "25-74.99" },
                     { label: "$75 - $150",   value: "75-150" },
                     { label: "Above $150",   value: "above-150" },
                     ].map((opt) => (

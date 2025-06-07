@@ -1,6 +1,7 @@
 "use client"; 
 
 import FilterSidebar from "@/app/ui/catalog/FilterSidebar";
+import { Suspense } from "react";
 
 
 type Category = { id: string; name: string };
@@ -25,10 +26,12 @@ export default function TestFilterPage() {
   return (
     <main className="flex h-screen bg-gray-50">
       <div className="w-full md:w-64 p-4">
+        <Suspense>
         <FilterSidebar
           categories={testCategories}
           sellers={testSellers}
         />
+        </Suspense>
       </div>
       <div className="flex-1 flex items-center justify-center text-gray-400">
         Product grid placeholder
