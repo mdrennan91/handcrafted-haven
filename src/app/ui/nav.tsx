@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
 import { BookImage, House, Package, ShoppingCart } from "lucide-react";
 import clsx from "clsx";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useCartCount } from "@/app/lib/useCartCount";
 
 const links = [
@@ -17,20 +17,32 @@ const links = [
 export default function Nav() {
   const pathname = usePathname();
   const cartCount = useCartCount();
-  const [ isOpen, setIsOpen ] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+
+  useEffect(() => {
+    function handleResize() {
+      if (window.innerWidth >= 768) {
+        // 768px is Tailwind's md breakpoint
+        setIsOpen(false);
+      }
+    }
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   return (
     <nav className="flex items-center gap-2">
       <div className=" flex justify-flex items-center">
-        <button 
-        className="md:hidden flex flex-col space-y-1 cursor-pointer"
-        onClick={() => setIsOpen(!isOpen)}
-        aria-label="Hamburger Menu"
+        <button
+          className="md:hidden flex flex-col space-y-1 cursor-pointer"
+          onClick={() => setIsOpen(!isOpen)}
+          aria-label="Hamburger Menu"
         >
           <span className="w-6 h-0.5 bg-white"></span>
           <span className="w-6 h-0.5 bg-white"></span>
           <span className="w-6 h-0.5 bg-white"></span>
         </button>
-      {!isOpen && (
+        {!isOpen && (
           <ul className="hidden md:flex md:gap-1">
             {links.map((link) => {
               const LinkIcon = link.icon;
@@ -73,8 +85,10 @@ export default function Nav() {
                     className={clsx(
                       "relative text-[var(--secondary)] p-3 rounded-md transition-all ease-in-out duration-300 block",
                       {
-                        "bg-[var(--secondary)] text-white": pathname === link.href,
-                        "hover:bg-[var(--secondary)] hover:text-white": pathname !== link.href,
+                        "bg-[var(--secondary)] text-white":
+                          pathname === link.href,
+                        "hover:bg-[var(--secondary)] hover:text-white":
+                          pathname !== link.href,
                       }
                     )}
                     onClick={() => setIsOpen(false)}
@@ -82,7 +96,7 @@ export default function Nav() {
                     <LinkIcon className="w-5 h-5 inline mr-2" />
                     {link.name}
                     {isCart && cartCount > 0 && (
-                      <span className="absolute -top-1 -right-1 bg-red-600 text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center">
+                      <span className="absolute top-3.5 right-30 bg-red-600 text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center">
                         {cartCount}
                       </span>
                     )}
@@ -91,7 +105,8 @@ export default function Nav() {
               );
             })}
           </ul>
-        )}   </div>
+        )}{" "}
+      </div>
     </nav>
   );
 }
