@@ -31,24 +31,33 @@ export const { auth, signIn, signOut } = NextAuth({
           .object({ email: z.string().email(), password: z.string().min(7) })
           .safeParse(credentials);
 
-        if (parsedCredentials.success) {
-          const { email, password } = parsedCredentials.data;
-          const user = await getUser(email);
-          if (!user) return null;
-
-          const passwordsMatch = await bcrypt.compare(password, user.password);
-          if (passwordsMatch) {
-            return {
-              id: user.user_id,
-              email: user.email,
-              role: user.user_type,
-              password: user.password,
-            };
-          }
+        if (!parsedCredentials.success) {
+          console.log('❌ Invalid input', credentials);
+          return null;
         }
 
-        console.log('Invalid credentials');
-        return null;
+        const { email, password } = parsedCredentials.data;
+        const user = await getUser(email);
+
+        if (!user) {
+          console.log('❌ User not found for email:', email);
+          return null;
+        }
+
+        const passwordsMatch = await bcrypt.compare(password, user.password);
+
+        if (!passwordsMatch) {
+          console.log('❌ Incorrect password for:', email);
+          return null;
+        }
+
+        console.log('✅ Authorized user:', user.email, 'Role:', user.user_type);
+        return {
+          id: user.user_id,
+          email: user.email,
+          role: user.user_type,
+          password: user.password,
+        };
       },
     }),
   ],

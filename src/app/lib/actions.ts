@@ -10,17 +10,27 @@ export async function authenticate(
 ) {
   try {
     await signIn('credentials', formData);
+    await new Promise((res) => setTimeout(res, 100));
 
     // console.log('Login attempt:', {
     //     formPassword: formData.get('password'),
     //     });
     const session = await auth(); // server-side session from setup
     const role = session?.user?.role;
-    
-    console.log("session.user.role: ", role);
-    console.log("in actions->authenticate");
-    
-    if (role === 'Seller') {
+
+    console.log('✅ Authorized:', session?.user?.email, 'Role:', role);
+
+    const redirectTo = formData.get('redirectTo');
+    if (
+      redirectTo &&
+      redirectTo !== 'null' &&
+      redirectTo !== 'undefined' &&
+      redirectTo !== '/login'
+    ) {
+      redirect(redirectTo as string);
+    } else if (role === 'Admin') {
+      redirect('/admin');
+    } else if (role === 'Seller') {
       redirect('/dashboard');
     } else {
       redirect('/');

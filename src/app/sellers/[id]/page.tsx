@@ -1,6 +1,7 @@
 import postgres from 'postgres';
 import Image from 'next/image';
 import ProductCard from '@ui/catalog/ProductCard';
+import Link from 'next/link';
 
 const sql = postgres(process.env.DATABASE_URL!, {
   ssl: 'require',
@@ -26,7 +27,11 @@ type Product = {
   image_url: string;
 };
 
-export default async function Seller({ params }: { params: Promise<{ id: string }> }) {
+export default async function Seller({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
   const { id } = await params;
 
   const sellerResult = await sql<Seller[]>`
@@ -61,6 +66,11 @@ export default async function Seller({ params }: { params: Promise<{ id: string 
           <h1 className="text-2xl font-bold">{seller.name}</h1>
           <p className="text-sm text-gray-500">{seller.specialty}</p>
           <p className="text-sm text-yellow-600">⭐ {seller.rating}</p>
+          <Link href={`/sellers/${seller.id}/about`}>
+            <button className="mt-4 bg-blue-600 text-white px-4 py-2 rounded-xl hover:bg-blue-700">
+              About Me
+            </button>
+          </Link>
         </div>
       </div>
 
@@ -73,7 +83,7 @@ export default async function Seller({ params }: { params: Promise<{ id: string 
               id: product.id,
               title: product.inv_title,
               price: product.inv_price,
-              imageUrl: product.image_url || "/placeholder.png",
+              imageUrl: product.image_url || '/placeholder.png',
               seller: {
                 id: seller.id,
                 name: seller.name,
