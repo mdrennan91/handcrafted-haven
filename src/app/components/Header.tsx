@@ -1,16 +1,15 @@
 import Image from "next/image";
 import Link from "next/link";
 import Nav from "../ui/nav";
-import { User, LogOut } from "lucide-react"; 
+import { User, LogOut } from "lucide-react";
 import clsx from "clsx";
-import CategoryDropdown from "./CategoryDropdown";
-import { signOut, auth } from '@/auth';
-
+// import CategoryDropdown from "./CategoryDropdown";
+import { signOut, auth } from "@/auth";
 
 export default async function Header() {
   const session = await auth();
   return (
-    <header className="bg-[var(--primary)] shadow-sm py-4">
+    <header className="bg-[var(--primary)] shadow-sm py-4 sticky top-0 z-20">
       <div className="max-w-7xl mx-auto flex items-center gap-4">
         {/* Left: Logo */}
         <Link href="/" className="flex items-center shrink-0">
@@ -24,7 +23,7 @@ export default async function Header() {
         </Link>
 
         {/* Center: Search + Categories */}
-        <div className="flex items-center gap-2 flex-1 max-w-3xl mx-auto w-full">
+        {/* <div className="flex items-center gap-2 flex-1 max-w-3xl mx-auto w-full">
           <CategoryDropdown />
           <div className="relative flex items-center w-full">
             <input
@@ -52,28 +51,28 @@ export default async function Header() {
               </svg>
             </button>
           </div>
-        </div>
-        
+        </div> */}
+
         {/** Right: Nav + Log in/Log out */}
         <div className="flex items-center gap-2 ml-auto">
           <Nav />
-        {/** Logic to display login or logout icon and button */}
+          {/** Logic to display login or logout icon and button */}
           {session ? (
             <form
               action={async () => {
-                'use server';
-                await signOut({ redirectTo: '/' });
+                "use server";
+                await signOut({ redirectTo: "/" });
               }}
             >
               <button
-                type="submit"     
-                title="Log out"           
+                type="submit"
+                title="Log out"
                 className={clsx(
                   "text-white p-3 rounded-md transition-all ease-in-out duration-300",
                   "hover:bg-[var(--secondary)]"
-              )}
+                )}
               >
-                <LogOut className="w-6" />                
+                <LogOut className="w-6" />
               </button>
             </form>
           ) : (
@@ -85,10 +84,10 @@ export default async function Header() {
                 "hover:bg-[var(--secondary)]"
               )}
             >
-              <User className="w-5 h-5" />    
+              <User className="w-5 h-5" />
             </Link>
           )}
-      </div>
+        </div>
       </div>
     </header>
   );
