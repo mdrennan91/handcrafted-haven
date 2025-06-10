@@ -51,9 +51,7 @@ export default function ProductCard({
         />
       </div>
       <div className="mt-4">
-        <p className="text-sm font-semibold text-gray-900">
-          {product.title}
-        </p>
+        <p className="text-sm font-semibold text-gray-900">{product.title}</p>
         <span className="inline-block bg-gray-100 text-green-600 text-xs font-semibold px-2 py-1 rounded-full">
           ${(product.price / 100).toFixed(2)}
         </span>
@@ -73,16 +71,18 @@ export default function ProductCard({
             {product.seller.name}
           </Link>
         </p>
-        <div className="mt-4">
+        <div className="flex mt-4 justify-between">
           <Link href={`/products/${product.id}`} className="inline-block">
             <Button>View Product</Button>
           </Link>
+          <Button type="button" variant="cartButton" onClick={handleAddToCart}>
+            <ShoppingCart
+              size={16}
+              className={wiggle ? "animate-wiggle" : ""}
+            />
+          </Button>
         </div>
       </div>
-
-      <Button type="button" variant="cartButton" onClick={handleAddToCart}>
-        <ShoppingCart size={16} className={wiggle ? "animate-wiggle" : ""} />
-      </Button>
     </div>
   );
 }
