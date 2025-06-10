@@ -4,6 +4,7 @@ import { getAverageRatings } from "@/app/lib/productActions";
 import { getAllCategories, getAllSellers, getFilteredProducts } from "../lib/filterActions";
 import FilterSidebar from "../ui/catalog/FilterSidebar";
 
+
 const sql = postgres(process.env.DATABASE_URL!, { ssl: "require" });
 
 type Product = {

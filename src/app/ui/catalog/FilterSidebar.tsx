@@ -5,6 +5,8 @@ import { useRouter, useSearchParams, usePathname } from 'next/navigation';
 import { Transition } from '@headlessui/react';
 import { X, Filter as FilterIcon } from 'lucide-react';
 import clsx from 'clsx';
+import { BrushCleaning } from "lucide-react";
+import { Button } from '../button';
 
 type Category = { category_id: string; category_name: string };
 type Seller = { id: string, name: string};
@@ -37,6 +39,10 @@ export default function FilterSidebar({
             setSelectedPrice(price);
         }, [searchParams]);
 
+         // replace with no querystring
+        function clearFilters() {        
+            replace(pathname);
+        }
 
         function updateURL(params: {
             categories: string[];
@@ -69,9 +75,7 @@ export default function FilterSidebar({
 
 
         //whenever someone clicks on a category
-        function toggleCategory(id: string) {
-
-          console.log("toggleCategory got id:", id, "typeof id:", typeof id);
+        function toggleCategory(id: string) {        
             const isSelected = selectedCategories.includes(id);
             let newCats:string[];
             if(isSelected) {
@@ -81,9 +85,6 @@ export default function FilterSidebar({
 
             }
   
-            console.log("Before toggle, selectedCategories: ", selectedCategories);
-            console.log("Toggling Categories:", id, "-> new array: ", newCats);
-
             setSelectedCategories(newCats);
             updateURL({categories: newCats, sellers: selectedSellers, price: selectedPrice });
         }
@@ -98,9 +99,7 @@ export default function FilterSidebar({
             } else {
                 newSells = [...selectedSellers, id];
             }
-            console.log("Before toggle, selectedSellers: ", selectedSellers);
-            console.log("Toggling seller:", id, "-> new array: ", newSells);
-
+  
             setSelectedSellers(newSells);
             updateURL({categories: selectedCategories, sellers: newSells, price: selectedPrice });
         }
@@ -109,9 +108,6 @@ export default function FilterSidebar({
             setSelectedPrice(val);
             updateURL({categories: selectedCategories, sellers: selectedSellers, price: val});
         }
-
-        console.log("selectedCategories: ", selectedCategories);
-        console.log('selectedSellers: ', selectedSellers);
         
 
         return (
@@ -130,9 +126,9 @@ export default function FilterSidebar({
             {/** DESKTOP SIDEBAR (hidden on mobile) */}
             <aside className="hidden md:block w-64 flex-shrink-0">
                 <div className="sticky top-6 space-y-6 rounded-lg bg-white border border-gray-200 p-4">
-                {/** -- Categories Section -- */}
-                <h3 className="font-semibold mb-2">Categories</h3>
-                <div className="space-y-1 max-h-48 overflow-auto">
+                 {/** -- Categories Section -- */}
+                 <h3 className="font-semibold mb-2">Categories</h3>
+                 <div className="space-y-1 max-h-48 overflow-auto">
                     {/**Build categories list */}
                     {categories.map((category) => (
                     <label
@@ -187,7 +183,7 @@ export default function FilterSidebar({
 
                 {/** -- Price Section (radio buttons) -- */}
                 <h3 className="font-semibold mb-2">Price</h3>
-                <div className="space-y-1">
+                  <div className="space-y-1">
                     {[
                     { label: "Under $25",   value: "under-25" },
                     { label: "$25 - $74.99", value: "25-7499" },
@@ -212,8 +208,23 @@ export default function FilterSidebar({
                         <span>{opt.label}</span>
                     </label>
                     ))}
-                </div>
-                </div>
+                  </div>
+                    <div className="mt-6 pt-4 border-t border-gray-200">
+                        {/* <button
+                        onClick={clearFilters}
+                        className="inline-flex items-center whitespace-nowrap bg-[var(--secondary)] text-black font-medium 
+                        rounded-full px-4 py-2 text-sm shadow-sm hover:bg-[var(--secondary-light)] transition"
+                        >                                   
+                        <BrushCleaning className="w-5 h-5 shrink-0"/>
+                        <span>Clear All Filters</span>
+                        </button> */}
+                        <Button
+                            onClick={clearFilters}                           
+                        >  <BrushCleaning className="w-5 h-5 shrink-0 mr-2" />
+                            Clear All Filters
+                        </Button>
+                    </div>  
+                </div>                
             </aside>
 
             {/** MOBILE SLIDE‐OVER FILTER (only visible if mobileOpen = true) */}
@@ -321,6 +332,16 @@ export default function FilterSidebar({
                         ))}
                     </div>
                     </div>
+                        <div className="mt-6 pt-4 border-t border-gray-200">
+                            <button
+                            onClick={clearFilters}
+                            className="inline-flex items-center whitespace-nowrap bg-[var(--secondary)] text-black font-medium 
+                            rounded-full px-4 py-2 text-sm shadow-sm hover:bg-[var(--secondary-light)] transition"
+                            >                                   
+                            <BrushCleaning className="w-5 h-5 shrink-0"/>
+                            <span>Clear All Filters</span>
+                            </button>
+                        </div>  
                 </div>
                 </div>
             </Transition>
