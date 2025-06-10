@@ -1,7 +1,8 @@
 import postgres from "postgres";
 import CatalogGrid from "@ui/catalog/CatalogGrid";
 import { getAverageRatings } from "@/app/lib/productActions";
-
+import { getAllCategories, getAllSellers, getFilteredProducts } from "../lib/filterActions";
+import FilterSidebar from "../ui/catalog/FilterSidebar";
 
 const sql = postgres(process.env.DATABASE_URL!, { ssl: "require" });
 
@@ -17,7 +18,12 @@ type Product = {
   image_url: string;
 };
 
-export default async function CatalogPage() {
+export default async function CatalogPage({
+  searchParams,
+}: {
+  searchParams:  Promise<{ [key:string]: string | string[] | undefined }>;
+}) {
+
   const products = await sql<Product[]>`
     SELECT i.*, s.name
     FROM inventory i
@@ -26,16 +32,24 @@ export default async function CatalogPage() {
 
   // Get product IDs for fetching average ratings
   const productIds = products.map((product) => product.id);
-
+  const filterParams = await searchParams;
   const ratingsMap = await getAverageRatings(productIds);
+  const { allCategories } = await getAllCategories();
+  const { allSellers } = await getAllSellers();
+  const filtered = await getFilteredProducts(filterParams);
+
+
 
   return (
     <main className="p-6">
       <h1 className="text-xl md:text-2xl font-bold mb-6">Catalog</h1>
-      
+      <FilterSidebar categories={ allCategories } sellers={ allSellers }/>
       <section className="rounded-xl bg-white p-6 shadow-sm border border-gray-200">        
+      
+
+
         <CatalogGrid
-          products={products.map((product) => ({
+          products={filtered.map((product) => ({
             id: product.id,
             title: product.inv_title,
             price: product.inv_price,

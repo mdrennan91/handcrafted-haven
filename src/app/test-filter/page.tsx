@@ -1,25 +1,28 @@
-"use client"; 
-
 import FilterSidebar from "@/app/ui/catalog/FilterSidebar";
 import { Suspense } from "react";
+import { getAllCategories, getAllSellers } from "../lib/filterActions";
+
+// type Category = { category_id: string; category_name: string };
+// type Seller = { id: string, name: string};
 
 
-type Category = { id: string; name: string };
-type Seller = { id: string, name: string};
+// const testCategories: Category[] = [
+//   { category_id: "cat1", category_name: "Pottery" },
+//   { category_id: "cat2", category_name: "Woodwork" },
+//   { category_id: "cat3", category_name: "Textiles" },
+//   { category_id: "cat4", category_name: "Jewelry" },
+// ];
 
+// const testSellers: Seller[] = [
+//   { id: "sel1", name: "June’s Creations" },
+//   { id: "sel2", name: "Sarah’s Studio" },
+//   { id: "sel3", name: "Blake’s Workshop" },
+// ];
 
-const testCategories: Category[] = [
-  { id: "cat1", name: "Pottery" },
-  { id: "cat2", name: "Woodwork" },
-  { id: "cat3", name: "Textiles" },
-  { id: "cat4", name: "Jewelry" },
-];
-
-const testSellers: Seller[] = [
-  { id: "sel1", name: "June’s Creations" },
-  { id: "sel2", name: "Sarah’s Studio" },
-  { id: "sel3", name: "Blake’s Workshop" },
-];
+const { allCategories } = await getAllCategories();
+console.log("allCategories", allCategories);
+const { allSellers } = await getAllSellers();
+console.log("allSellers: ", allSellers);
 
 export default function TestFilterPage() {
 
@@ -28,8 +31,8 @@ export default function TestFilterPage() {
       <div className="w-full md:w-64 p-4">
         <Suspense>
         <FilterSidebar
-          categories={testCategories}
-          sellers={testSellers}
+          categories={allCategories}
+          sellers={allSellers}
         />
         </Suspense>
       </div>

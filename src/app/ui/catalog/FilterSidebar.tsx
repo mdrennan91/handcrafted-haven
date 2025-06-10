@@ -6,7 +6,7 @@ import { Transition } from '@headlessui/react';
 import { X, Filter as FilterIcon } from 'lucide-react';
 import clsx from 'clsx';
 
-type Category = { id: string; name: string };
+type Category = { category_id: string; category_name: string };
 type Seller = { id: string, name: string};
 
 //function FilterSibebar excepts props: categories & sellers
@@ -78,6 +78,10 @@ export default function FilterSidebar({
                 newCats = [...selectedCategories, id];
 
             }
+  
+            console.log("Before toggle, selectedCategories: ", selectedCategories);
+            console.log("Toggling Categories:", id, "-> new array: ", newCats);
+
             setSelectedCategories(newCats);
             updateURL({categories: newCats, sellers: selectedSellers, price: selectedPrice });
         }
@@ -123,22 +127,22 @@ export default function FilterSidebar({
                 <h3 className="font-semibold mb-2">Categories</h3>
                 <div className="space-y-1 max-h-48 overflow-auto">
                     {/**Build categories list */}
-                    {categories.map((cat) => (
+                    {categories.map((category) => (
                     <label
-                        key={cat.id}
+                        key={category.category_id}
                         className={clsx(
                         "flex items-center space-x-2 cursor-pointer",
-                        selectedCategories.includes(cat.id) && "font-medium text-[var(--primary)]"
+                        selectedCategories.includes(category.category_id) && "font-medium text-[var(--primary)]"
                         )}
                     >
                         <input
                         type="checkbox"
-                        value={cat.id}
-                        checked={selectedCategories.includes(cat.id)}
-                        onChange={() => toggleCategory(cat.id)}
+                        value={category.category_id}
+                        checked={selectedCategories.includes(category.category_id)}
+                        onChange={() => toggleCategory(category.category_id)}
                         className="form-checkbox h-4 w-4 text-[var(--primary)]"
                         />
-                        <span>{cat.name}</span>
+                        <span>{category.category_name}</span>
                     </label>
                     ))}
                 </div>
@@ -149,22 +153,22 @@ export default function FilterSidebar({
                 <h3 className="font-semibold mb-2">Sellers</h3>
                 <div className="space-y-1 max-h-48 overflow-auto">
                     {/**Build sellers list */}
-                    {sellers.map((sel) => (
+                    {sellers.map((seller) => (
                     <label
-                        key={sel.id}
+                        key={seller.id}
                         className={clsx(
                         "flex items-center space-x-2 cursor-pointer",
-                        selectedSellers.includes(sel.id) && "font-medium text-[var(--primary)]"
+                        selectedSellers.includes(seller.id) && "font-medium text-[var(--primary)]"
                         )}
                     >
                         <input
                         type="checkbox"
-                        value={sel.id}
-                        checked={selectedSellers.includes(sel.id)}
-                        onChange={() => toggleSeller(sel.id)}
+                        value={seller.id}
+                        checked={selectedSellers.includes(seller.id)}
+                        onChange={() => toggleSeller(seller.id)}
                         className="form-checkbox h-4 w-4 text-[var(--primary)]"
                         />
-                        <span>{sel.name}</span>
+                        <span>{seller.name}</span>
                     </label>
                     ))}
                 </div>
@@ -176,7 +180,7 @@ export default function FilterSidebar({
                 <div className="space-y-1">
                     {[
                     { label: "Under $25",   value: "under-25" },
-                    { label: "$25 - $74.99", value: "25-74.99" },
+                    { label: "$25 - $74.99", value: "25-7499" },
                     { label: "$75 - $150",   value: "75-150" },
                     { label: "Above $150",   value: "above-150" },
                     ].map((opt) => (
@@ -231,22 +235,22 @@ export default function FilterSidebar({
                     <div>
                     <h4 className="font-medium mb-2">Categories</h4>
                     <div className="space-y-1 max-h-40 overflow-auto">
-                        {categories.map((cat) => (
+                        {categories.map((category) => (
                         <label
-                            key={cat.id}
+                            key={category.category_id}
                             className={clsx(
                             "flex items-center space-x-2 cursor-pointer",
-                            selectedCategories.includes(cat.id) && "font-medium text-[var(--primary)]"
+                            selectedCategories.includes(category.category_id) && "font-medium text-[var(--primary)]"
                             )}
                         >
                             <input
                             type="checkbox"
-                            value={cat.id}
-                            checked={selectedCategories.includes(cat.id)}
-                            onChange={() => toggleCategory(cat.id)}
+                            value={category.category_id}
+                            checked={selectedCategories.includes(category.category_id)}
+                            onChange={() => toggleCategory(category.category_id)}
                             className="form-checkbox h-4 w-4 text-[var(--primary)]"
                             />
-                            <span>{cat.name}</span>
+                            <span>{category.category_name}</span>
                         </label>
                         ))}
                     </div>
@@ -256,22 +260,22 @@ export default function FilterSidebar({
                     <div>
                     <h4 className="font-medium mb-2">Sellers</h4>
                     <div className="space-y-1 max-h-40 overflow-auto">
-                        {sellers.map((sel) => (
+                        {sellers.map((seller) => (
                         <label
-                            key={sel.id}
+                            key={seller.id}
                             className={clsx(
                             "flex items-center space-x-2 cursor-pointer",
-                            selectedSellers.includes(sel.id) && "font-medium text-[var(--primary)]"
+                            selectedSellers.includes(seller.id) && "font-medium text-[var(--primary)]"
                             )}
                         >
                             <input
                             type="checkbox"
-                            value={sel.id}
-                            checked={selectedSellers.includes(sel.id)}
-                            onChange={() => toggleSeller(sel.id)}
+                            value={seller.id}
+                            checked={selectedSellers.includes(seller.id)}
+                            onChange={() => toggleSeller(seller.id)}
                             className="form-checkbox h-4 w-4 text-[var(--primary)]"
                             />
-                            <span>{sel.name}</span>
+                            <span>{seller.name}</span>
                         </label>
                         ))}
                     </div>
