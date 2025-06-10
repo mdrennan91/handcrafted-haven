@@ -20,7 +20,7 @@ export function Button({
     secondary:
       "text-white rounded-lg px-4 bg-[var(--secondary)] hover:bg-[var(--secondary-light)] focus-visible:outline-[var(--secondary)] active:bg-[var(--secondary--dark)]",
     cartButton:
-      "absolute bottom-4 right-4 bg-gray-100 hover:bg-gray-200 p-4 rounded-full shadow-md text-black",
+      "bg-gray-100 hover:bg-gray-200 p-4 rounded-full shadow-md text-black",
     proceed: "bg-green-600 hover:bg-green-700 text-white rounded-lg px-4",
   };
 
