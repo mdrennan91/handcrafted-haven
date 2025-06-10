@@ -85,7 +85,8 @@ export default async function ProductPage({
         </Link>
       </p>
       <p className="text-gray-700 text-base">
-        This is a handcrafted item with love ♥
+        {/* This is a handcrafted item with love ♥ */}
+        {product.inv_description}
       </p>
       <div className="mt-8">
         <AddToCartButton
