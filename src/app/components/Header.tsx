@@ -1,18 +1,16 @@
 import Image from "next/image";
 import Link from "next/link";
 import Nav from "../ui/nav";
+// import CategoryDropdown from "./CategoryDropdown";
 import { User } from "lucide-react"; 
 import clsx from "clsx";
-import CategoryDropdown from "./CategoryDropdown";
 import { auth } from '@/auth';
 import LogoutForm from "./LogOutForm";
-
-
 
 export default async function Header() {
   const session = await auth();
   return (
-    <header className="bg-[var(--primary)] shadow-sm py-4">
+    <header className="bg-[var(--primary)] shadow-sm py-4 sticky top-0 z-20">
       <div className="max-w-7xl mx-auto flex items-center gap-4">
         {/* Left: Logo */}
         <Link href="/" className="flex items-center shrink-0">
@@ -26,7 +24,7 @@ export default async function Header() {
         </Link>
 
         {/* Center: Search + Categories */}
-        <div className="flex items-center gap-2 flex-1 max-w-3xl mx-auto w-full">
+        {/* <div className="flex items-center gap-2 flex-1 max-w-3xl mx-auto w-full">
           <CategoryDropdown />
           <div className="relative flex items-center w-full">
             <input
@@ -54,8 +52,8 @@ export default async function Header() {
               </svg>
             </button>
           </div>
-        </div>
-        
+        </div> */}
+
         {/** Right: Nav + Log in/Log out */}
         <div className="flex items-center gap-2 ml-auto">
           <Nav />
