@@ -1,10 +1,12 @@
 import Image from "next/image";
 import Link from "next/link";
 import Nav from "../ui/nav";
-import { User, LogOut } from "lucide-react"; 
+import { User } from "lucide-react"; 
 import clsx from "clsx";
 import CategoryDropdown from "./CategoryDropdown";
-import { signOut, auth } from '@/auth';
+import { auth } from '@/auth';
+import LogoutForm from "./LogOutForm";
+
 
 
 export default async function Header() {
@@ -59,23 +61,7 @@ export default async function Header() {
           <Nav />
         {/** Logic to display login or logout icon and button */}
           {session ? (
-            <form
-              action={async () => {
-                'use server';
-                await signOut({ redirectTo: '/' });
-              }}
-            >
-              <button
-                type="submit"     
-                title="Log out"           
-                className={clsx(
-                  "text-white p-3 rounded-md transition-all ease-in-out duration-300",
-                  "hover:bg-[var(--secondary)]"
-              )}
-              >
-                <LogOut className="w-6" />                
-              </button>
-            </form>
+            <LogoutForm/>
           ) : (
             <Link
               href="/login"
