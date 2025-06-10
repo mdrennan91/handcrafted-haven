@@ -55,7 +55,7 @@ export async function getFilteredProducts(searchParams: {
 }): Promise <Array<InventoryRow & {averageRating:number}>    
 > {    
     try {
-        console.log("searchParams: ", searchParams);
+        // console.log("searchParams: ", searchParams);
         //normalize categories into an array (empty, ["1007"], or ["1007", "1008"])
         const categories = Array.isArray(searchParams.categories)
             ? searchParams.categories
@@ -64,7 +64,7 @@ export async function getFilteredProducts(searchParams: {
             : []
 
         
-        console.log("categories: ", categories);
+        // console.log("categories: ", categories);
         //normalize sellers
         const sellers = Array.isArray(searchParams.sellers)
             ? searchParams.sellers
@@ -127,7 +127,7 @@ export async function getFilteredProducts(searchParams: {
                 ORDER BY i.inv_title
                 `;
 
-        console.log("products: ", products);
+        // console.log("products: ", products);
 
         const ids = products.map((product) => product.id);
         const ratingsMap = await getAverageRatings(ids);
