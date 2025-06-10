@@ -42,26 +42,30 @@ export default async function CatalogPage({
 
   return (
     <main className="p-6">
-      <h1 className="text-xl md:text-2xl font-bold mb-6">Catalog</h1>
-      <FilterSidebar categories={ allCategories } sellers={ allSellers }/>
-      <section className="rounded-xl bg-white p-6 shadow-sm border border-gray-200">        
       
 
+      <div className="flex flex-col md:flex-row gap-6">
+        <aside className="col-span-1">
+          <FilterSidebar categories={ allCategories } sellers={ allSellers }/>
+        </aside>
+          <section className="rounded-xl bg-white p-6 shadow-sm border border-gray-200 col-span-1 md:col-span-3">        
+          <h1 className="text-xl md:text-2xl font-bold mb-6 text-center">Catalog</h1>
+            <CatalogGrid
+              products={filtered.map((product) => ({
+                id: product.id,
+                title: product.inv_title,
+                price: product.inv_price,
+                imageUrl: product.image_url || "/placeholder.png",
+                seller: {
+                  id: product.seller_id,
+                  name: product.name,
+                },
+                averageRating: ratingsMap[product.id] || 0, // Add average rating, default to 0
+              }))}
+            />
+          </section>
 
-        <CatalogGrid
-          products={filtered.map((product) => ({
-            id: product.id,
-            title: product.inv_title,
-            price: product.inv_price,
-            imageUrl: product.image_url || "/placeholder.png",
-            seller: {
-              id: product.seller_id,
-              name: product.name,
-            },
-            averageRating: ratingsMap[product.id] || 0, // Add average rating, default to 0
-          }))}
-        />
-      </section>
+      </div>
     </main>
   );
 }
