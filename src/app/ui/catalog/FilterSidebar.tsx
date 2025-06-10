@@ -70,6 +70,8 @@ export default function FilterSidebar({
 
         //whenever someone clicks on a category
         function toggleCategory(id: string) {
+
+          console.log("toggleCategory got id:", id, "typeof id:", typeof id);
             const isSelected = selectedCategories.includes(id);
             let newCats:string[];
             if(isSelected) {
@@ -86,6 +88,7 @@ export default function FilterSidebar({
             updateURL({categories: newCats, sellers: selectedSellers, price: selectedPrice });
         }
 
+        
         //whenever someone clicks on a seller, update seller info in URL
         function toggleSeller(id: string) {
             const isSelected = selectedSellers.includes(id);
@@ -106,6 +109,10 @@ export default function FilterSidebar({
             setSelectedPrice(val);
             updateURL({categories: selectedCategories, sellers: selectedSellers, price: val});
         }
+
+        console.log("selectedCategories: ", selectedCategories);
+        console.log('selectedSellers: ', selectedSellers);
+        
 
         return (
             <>
@@ -137,9 +144,12 @@ export default function FilterSidebar({
                     >
                         <input
                         type="checkbox"
+                        id={category.category_id}
+                        name={category.category_id}
                         value={category.category_id}
                         checked={selectedCategories.includes(category.category_id)}
-                        onChange={() => toggleCategory(category.category_id)}
+                        onChange={() => toggleCategory(String(category.category_id))}
+                        
                         className="form-checkbox h-4 w-4 text-[var(--primary)]"
                         />
                         <span>{category.category_name}</span>

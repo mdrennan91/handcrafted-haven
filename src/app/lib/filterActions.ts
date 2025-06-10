@@ -20,7 +20,7 @@ export async function getAllCategories(): Promise<{
     allCategories: Array<{category_id: string; category_name: string}>;    
 }> {
     const allCategories = await sql<{category_id: string; category_name: string}[]>`
-    SELECT category_id, category_name
+    SELECT category_id::text AS category_id, category_name
     FROM categories
     ORDER BY category_name;`;
 
