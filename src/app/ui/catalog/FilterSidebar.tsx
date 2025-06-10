@@ -209,17 +209,10 @@ export default function FilterSidebar({
                     </label>
                     ))}
                   </div>
-                    <div className="mt-6 pt-4 border-t border-gray-200">
-                        {/* <button
-                        onClick={clearFilters}
-                        className="inline-flex items-center whitespace-nowrap bg-[var(--secondary)] text-black font-medium 
-                        rounded-full px-4 py-2 text-sm shadow-sm hover:bg-[var(--secondary-light)] transition"
-                        >                                   
-                        <BrushCleaning className="w-5 h-5 shrink-0"/>
-                        <span>Clear All Filters</span>
-                        </button> */}
+                    <div className="mt-6 pt-4 border-t border-gray-200">                       
                         <Button
-                            onClick={clearFilters}                           
+                            onClick={clearFilters}
+                            title="Clear filters"                           
                         >  <BrushCleaning className="w-5 h-5 shrink-0 mr-2" />
                             Clear All Filters
                         </Button>
@@ -333,22 +326,16 @@ export default function FilterSidebar({
                     </div>
                     </div>
                         <div className="mt-6 pt-4 border-t border-gray-200">
-                            <button
-                            onClick={clearFilters}
-                            className="inline-flex items-center whitespace-nowrap bg-[var(--secondary)] text-black font-medium 
-                            rounded-full px-4 py-2 text-sm shadow-sm hover:bg-[var(--secondary-light)] transition"
-                            >                                   
-                            <BrushCleaning className="w-5 h-5 shrink-0"/>
-                            <span>Clear All Filters</span>
-                            </button>
+                            <Button
+                                onClick={clearFilters}
+                                title="Clear filters"                           
+                            >  <BrushCleaning className="w-5 h-5 shrink-0 mr-2" />
+                                Clear All Filters
+                            </Button>
                         </div>  
                 </div>
                 </div>
             </Transition>
             </>
         );
-
- 
-
-
     }

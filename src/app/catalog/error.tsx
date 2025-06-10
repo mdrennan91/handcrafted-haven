@@ -18,7 +18,7 @@ export default function Error({
   return (
     <div className='flex h-full flex-col items-center justify-center pt-2'>
       <h2 className='text-center'>Something went wrong!</h2>
-       <Button onClick={reset}>
+       <Button onClick={reset} title="Try again">
         Try again
       </Button>      
     </div>
