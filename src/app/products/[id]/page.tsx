@@ -36,9 +36,9 @@ type Review = {
 export default async function ProductPage({
   params,
 }: {
-  params: Promise<{ id: string }>;
+  params: { id: string };
 }) {
-  const { id } = await params;
+  const { id } = params;
   const productResult = await sql<ProductWithSeller[]>`
     SELECT i.*, s.name
     FROM inventory i

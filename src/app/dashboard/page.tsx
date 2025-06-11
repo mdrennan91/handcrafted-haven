@@ -29,7 +29,7 @@ type Product = {
   image_url: string;
 };
 
-// export default async function Seller({ params }: { params: Promise<{ id: string }> }) {
+// export default async function Seller({ params }: { params: { id: string } }) {
 // const { id } = await params;
 export default async function SellerDashboad() {
   // For simplicity, using a hardcoded ID
