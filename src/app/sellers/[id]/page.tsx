@@ -1,9 +1,10 @@
-import postgres from 'postgres';
-import Image from 'next/image';
-import ProductCard from '@ui/catalog/ProductCard';
+import postgres from "postgres";
+import Image from "next/image";
+import ProductCard from "@ui/catalog/ProductCard";
+import { notFound } from "next/navigation";
 
 const sql = postgres(process.env.DATABASE_URL!, {
-  ssl: 'require',
+  ssl: "require",
   prepare: false,
 });
 
@@ -26,7 +27,11 @@ type Product = {
   image_url: string;
 };
 
-export default async function Seller({ params }: { params: Promise<{ id: string }> }) {
+export default async function Seller({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
   const { id } = await params;
 
   const sellerResult = await sql<Seller[]>`
@@ -38,7 +43,7 @@ export default async function Seller({ params }: { params: Promise<{ id: string 
   const seller = sellerResult[0];
 
   if (!seller) {
-    return <p className="p-6">Seller not found.</p>;
+    return notFound();
   }
 
   const products = await sql<Product[]>`

@@ -2,8 +2,9 @@ import postgres from "postgres";
 import Image from "next/image";
 import Link from "next/link";
 import AddToCartButton from "@/app/ui/cart/AddToCartButton";
-import LeaveReviewButtonAndForm from "@/app/ui/products/LeaveReviewButtonAndForm";
 import ReviewList from "@/app/ui/products/ReviewList";
+import LeaveReviewButtonAndForm from "@/app/ui/products/LeaveReviewButtonAndForm";
+import { notFound } from "next/navigation";
 
 const sql = postgres(process.env.DATABASE_URL!, {
   ssl: "require",
@@ -49,7 +50,7 @@ export default async function ProductPage({
   const product = productResult[0];
 
   if (!product) {
-    return <p className="p-6">Product not found.</p>;
+    return notFound();
   }
 
   // Fetch reviews for this product

@@ -69,9 +69,7 @@ export async function deleteProduct(id: string) {
 }
 
 export async function addReview(productId: string, rating: number, comment: string) {
-  'use server';
-
-  // TODO: Get the actual user_id from your authentication system
+  
   const user_id = null; // Set user_id to null for unauthenticated users
 
   if (!rating || !comment) {
@@ -86,17 +84,16 @@ export async function addReview(productId: string, rating: number, comment: stri
       VALUES (${productId}, ${user_id}, ${rating}, ${comment})
     `;
 
-    revalidatePath(`/products/${productId}`);
-    return { success: true };
-
   } catch (error) {
     console.error('Error adding review:', error);
     return { error: 'Failed to add review' };
   }
+
+  revalidatePath(`/products/${productId}`);
+  return { success: true };
 }
 
 export async function getAverageRatings(productIds: string[]): Promise<{ [productId: string]: number }> {
-  'use server';
 
   if (!Array.isArray(productIds) || productIds.length === 0) {
     return {};

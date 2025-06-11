@@ -2,12 +2,13 @@
 
 import { getProductById, updateProduct } from "@/app/lib/productActions";
 import DeleteProductButton from "./DeleteProductButton";
+import { notFound } from "next/navigation";
 
 export default async function EditProduct({ id }: { id: string }) {
   const product = await getProductById(id);
 
   if (!product) {
-    return <p className="p-6 text-red-500">Product not found.</p>;
+    return notFound();
   }
 
   return (
@@ -82,7 +83,7 @@ export default async function EditProduct({ id }: { id: string }) {
             Image URL
           </label>
           <input
-            type="url"
+            type="text"
             id="image_url"
             name="image_url"
             defaultValue={product.image_url}
