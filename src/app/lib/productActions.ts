@@ -41,6 +41,7 @@ export async function getProductById(id: string) {
 // Server action to update product
 
 export async function updateProduct(id: string, formData: FormData) {
+  throw new Error('Error in this function "updateProduct"');
   const inv_title = formData.get('inv_title') as string;
   const inv_description = formData.get('inv_description') as string;
   const inv_price = Number(formData.get('inv_price'));
@@ -70,8 +71,8 @@ export async function deleteProduct(id: string) {
 
 export async function addReview(productId: string, rating: number, comment: string) {
   'use server';
-
-  // TODO: Get the actual user_id from your authentication system
+  throw new Error('Error in this function "addReview"');
+  
   const user_id = null; // Set user_id to null for unauthenticated users
 
   if (!rating || !comment) {
@@ -86,13 +87,13 @@ export async function addReview(productId: string, rating: number, comment: stri
       VALUES (${productId}, ${user_id}, ${rating}, ${comment})
     `;
 
-    revalidatePath(`/products/${productId}`);
-    return { success: true };
-
   } catch (error) {
     console.error('Error adding review:', error);
     return { error: 'Failed to add review' };
   }
+
+  revalidatePath(`/products/${productId}`);
+  return { success: true };
 }
 
 export async function getAverageRatings(productIds: string[]): Promise<{ [productId: string]: number }> {

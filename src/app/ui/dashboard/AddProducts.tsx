@@ -76,7 +76,7 @@ export default function AddProducts() {
             Image URL
           </label>
           <input
-            type="url"
+            type="text"
             id="image_url"
             name="image_url"
             className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500"
