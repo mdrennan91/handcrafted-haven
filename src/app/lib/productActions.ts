@@ -41,7 +41,6 @@ export async function getProductById(id: string) {
 // Server action to update product
 
 export async function updateProduct(id: string, formData: FormData) {
-  throw new Error('Error in this function "updateProduct"');
   const inv_title = formData.get('inv_title') as string;
   const inv_description = formData.get('inv_description') as string;
   const inv_price = Number(formData.get('inv_price'));
@@ -70,8 +69,6 @@ export async function deleteProduct(id: string) {
 }
 
 export async function addReview(productId: string, rating: number, comment: string) {
-  'use server';
-  throw new Error('Error in this function "addReview"');
   
   const user_id = null; // Set user_id to null for unauthenticated users
 
@@ -97,7 +94,6 @@ export async function addReview(productId: string, rating: number, comment: stri
 }
 
 export async function getAverageRatings(productIds: string[]): Promise<{ [productId: string]: number }> {
-  'use server';
 
   if (!Array.isArray(productIds) || productIds.length === 0) {
     return {};
