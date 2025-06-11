@@ -30,9 +30,9 @@ type Product = {
 export default async function Seller({
   params,
 }: {
-  params: Promise<{ id: string }>;
+  params: { id: string };
 }) {
-  const { id } = await params;
+  const { id } = params;
 
   const sellerResult = await sql<Seller[]>`
     SELECT id, name, specialty, image_url, rating
