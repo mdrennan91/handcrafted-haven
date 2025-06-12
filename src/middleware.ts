@@ -11,18 +11,24 @@ import { getToken } from 'next-auth/jwt';
 export async function middleware(req: NextRequest) {
   const token = await getToken({ req, secret: process.env.AUTH_SECRET });
 
-  const isSellerRoute = req.nextUrl.pathname.startsWith('/dashboard');
+  const pathname = req.nextUrl.pathname;
 
-  if (!token && isSellerRoute) {
-    return NextResponse.redirect(new URL('/login', req.url));
-  }
-
-  if (token && isSellerRoute) {
+  if (token) {
     const role = token.role;
 
-    if (role !== 'Admin' && role !== 'Seller' && role !== 'User') {
-      //Logged in but not authorized  -  create unauthorized page?
-      return NextResponse.redirect(new URL('/')); //goes back to home page right now
+    // Redirect non-admins trying to access /admin
+    if (pathname.startsWith('/admin') && role !== 'Admin') {
+      return NextResponse.redirect(new URL('/', req.url));
+    }
+
+    // Redirect non-sellers trying to access /dashboard
+    if (pathname.startsWith('/dashboard') && role !== 'Seller') {
+      return NextResponse.redirect(new URL('/', req.url));
+    }
+  } else {
+    // If not authenticated, block protected routes
+    if (pathname.startsWith('/admin') || pathname.startsWith('/dashboard')) {
+      return NextResponse.redirect(new URL('/login', req.url));
     }
   }
   return NextResponse.next();
@@ -33,6 +39,6 @@ export async function middleware(req: NextRequest) {
 export const config = {
   // https://nextjs.org/docs/app/building-your-application/routing/middleware#matcher
   //matcher allows you to filter Middleware to run on specific paths.
-    matcher: ['/((?!api|_next/static|_next/image|.*\\.png$).*)'],
+  matcher: ['/((?!api|_next/static|_next/image|.*\\.png$).*)'],
   // matcher: ['/dashboard/:path*'],
 };

@@ -16,11 +16,21 @@ export async function authenticate(
     //     });
     const session = await auth(); // server-side session from setup
     const role = session?.user?.role;
-    
-    console.log("session.user.role: ", role);
-    console.log("in actions->authenticate");
-    
-    if (role === 'Seller') {
+
+    console.log('session.user.role: ', role);
+    console.log('in actions->authenticate');
+
+    const redirectTo = formData.get('redirectTo');
+    if (
+      redirectTo &&
+      redirectTo !== 'null' &&
+      redirectTo !== 'undefined' &&
+      redirectTo !== '/login'
+    ) {
+      redirect(redirectTo as string);
+    } else if (role === 'Admin') {
+      redirect('/admin');
+    } else if (role === 'Seller') {
       redirect('/dashboard');
     } else {
       redirect('/');
@@ -39,5 +49,5 @@ export async function authenticate(
 }
 
 export async function logout() {
-  await signOut({ redirectTo: '/' })
+  await signOut({ redirectTo: '/' });
 }
