@@ -1,7 +1,8 @@
 'use client' // Error boundaries must be Client Components
 import {Button} from '@/app/ui/button';
 import { notoSans } from "./ui/fonts";
-import Link from "next/link";
+import { useEffect } from 'react'
+
 
 export default function GlobalError({
   error,
@@ -10,6 +11,11 @@ export default function GlobalError({
   error: Error & { digest?: string }
   reset: () => void
 }) {
+   useEffect(() => {
+      // Log the error to an error reporting service
+      console.error(error)
+    }, [error])
+
      return (
     // global-error must include html and body tags
     <html lang="en">
@@ -20,12 +26,7 @@ export default function GlobalError({
                <Button onClick={reset} title="Try again">                
                 Try again
               </Button>
-              </div>    
-              <a                  href="/"
-                className="mt-4 rounded-md bg-[var(--secondary)] px-4 py-2 text-sm text-white transition-colors hover:bg-[var(--secondary-light)]"
-              >
-                Start Over
-            </a>  
+              </div>                 
             </div>    
           </body>
         </html>

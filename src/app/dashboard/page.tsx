@@ -42,23 +42,37 @@ export default async function SellerDashboad() {
 
     const id = session.user.id;
 
-    const sellerResult = await sql<Seller[]>`
-      SELECT id, name, specialty, image_url, rating
-      FROM sellers
-      WHERE id = ${id}
-    `;
+    let sellerResult;
+    try {
+      sellerResult = await sql<Seller[]>`
+        SELECT id, name, specialty, image_url, rating
+        FROM sellers
+        WHERE id = ${id}
+      `;
+    } catch (error) {
+      console.error('Database Error:', error);
+      throw new Error('Failed to fetch artisan data.');
+    }
 
     const seller = sellerResult[0];
-
+    
     if (!seller) {
       redirect('/sellers');
     }
 
-    const products = await sql<Product[]>`
-      SELECT *
-      FROM inventory
-      WHERE seller_id = ${id}
-    `;
+    let products;
+
+    try {
+      products = await sql<Product[]>`
+        SELECT *
+        FROM inventory
+        WHERE seller_id = ${id}
+      `;
+    } catch (error) {
+      console.error('Database Error:', error);
+      throw new Error('Failed to fetch product data.');
+    }
+
 
     return (
       <main className="p-6 max-w-4xl mx-auto">
