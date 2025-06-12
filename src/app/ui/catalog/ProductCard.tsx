@@ -72,9 +72,13 @@ export default function ProductCard({
           </Link>
         </p>
         <div className="flex mt-4 justify-between">
-          <Link href={`/products/${product.id}`} className="inline-block">
-            <Button>View Product</Button>
-          </Link>
+          
+            <Button>
+              <Link href={`/products/${product.id}`} className="inline-block">
+                View Product
+              </Link>
+            </Button>
+          
           <Button type="button" value="cart" title="Add to Cart" variant="cartButton" onClick={handleAddToCart}>
             <ShoppingCart
               size={16}

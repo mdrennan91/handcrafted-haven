@@ -52,7 +52,7 @@ export default function Footer() {
           {socialLinks.map((link) => {
             const SocialIcon = link.icon;
             return (
-              <Link key={link.name} href={link.href} className="my-1 md:mx-2">
+              <Link key={link.name} href={link.href} title={link.name} className="my-1 md:mx-2">
                 <SocialIcon
                   height={25}
                   className="text-white mb-1 inline-block"

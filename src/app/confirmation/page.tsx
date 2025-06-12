@@ -29,11 +29,13 @@ export default function ConfirmationPage() {
         difference.
       </p>
 
-      <Link href="/">
+      
         <Button type="button" variant="secondary">
+          <Link href="/">
           Back to Home
+          </Link>
         </Button>
-      </Link>
+      
     </main>
   );
 }

@@ -47,17 +47,18 @@ export default function Nav() {
               const isCart = link.name === "Cart";
 
               return (
-                <Link
-                  key={link.name}
-                  href={link.href}
-                  title={link.name}
-                  className={clsx(
+                <li key={link.name} 
+                className={clsx(
                     "relative text-white p-3 rounded-md transition-all ease-in-out duration-300",
                     {
                       "bg-[var(--secondary)]": pathname === link.href,
                       "hover:bg-[var(--secondary)]": pathname !== link.href,
                     }
-                  )}
+                  )}><Link
+                  
+                  href={link.href}
+                  title={link.name}
+                  
                 >
                   <LinkIcon className="w-5 h-5" />
                   {isCart && cartCount > 0 && (
@@ -65,7 +66,7 @@ export default function Nav() {
                       {cartCount}
                     </span>
                   )}
-                </Link>
+                </Link></li>
               );
             })}
           </ul>

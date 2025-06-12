@@ -50,7 +50,7 @@ export default async function Content() {
   const ratingsMap = await getAverageRatings(productIds);
 
   return (
-    <main className="bg-[var(--accent1-light)] px-4 py-6">
+    <div className="bg-[var(--accent1-light)] px-4 py-6">
       <div className="max-w-7xl mx-auto">
         {/* Hero Section */}
         <section className="relative w-full h-[500px] mb-12 overflow-hidden rounded-xl shadow-sm border border-gray-200">
@@ -75,9 +75,11 @@ export default async function Content() {
                   variant="secondary"
                   className="transition-transform duration-200 hover:scale-105"
                 >
-                  Sign Up Today! &rarr;
+                  
+                     Sign Up Today! &rarr;
+                   
                 </Button>
-              </Link>
+              </Link> 
             </div>
           </div>
         </section>
@@ -137,6 +139,6 @@ export default async function Content() {
           </div>
         </section>
       </div>
-    </main>
+    </div>
   );
 }
