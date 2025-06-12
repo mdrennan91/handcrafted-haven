@@ -75,7 +75,7 @@ export default function ProductCard({
           <Link href={`/products/${product.id}`} className="inline-block">
             <Button>View Product</Button>
           </Link>
-          <Button type="button" variant="cartButton" onClick={handleAddToCart}>
+          <Button type="button" value="cart" title="Add to Cart" variant="cartButton" onClick={handleAddToCart}>
             <ShoppingCart
               size={16}
               className={wiggle ? "animate-wiggle" : ""}
