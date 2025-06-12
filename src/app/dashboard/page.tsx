@@ -25,6 +25,7 @@ type Product = {
   inv_price: number;
   inv_discount: number;
   seller_id: string;
+  image_url: string;
   featured: boolean;
 };
 
@@ -84,7 +85,7 @@ export default async function SellerDashboad() {
               id: product.id,
               title: product.inv_title,
               price: product.inv_price,
-              imageUrl: '/placeholder.png',
+              imageUrl: product.image_url || '/placeholder.png',
               seller: {
                 id: seller.id,
                 name: seller.name,
