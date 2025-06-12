@@ -20,7 +20,6 @@ export async function middleware(req: NextRequest) {
     if (pathname.startsWith('/admin') && role !== 'Admin') {
       return NextResponse.redirect(new URL('/', req.url));
     }
-
     // Redirect non-sellers trying to access /dashboard
     if (pathname.startsWith('/dashboard') && role !== 'Seller') {
       return NextResponse.redirect(new URL('/', req.url));
