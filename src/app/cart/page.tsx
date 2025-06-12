@@ -76,14 +76,19 @@ export default function CartPage() {
           </div>
 
           <div className="mt-6 flex flex-col sm:flex-row justify-between items-center gap-4">
-            <Link href="/catalog">
-              <Button variant="secondary">← Continue Shopping</Button>
-            </Link>
-            <Link href="/confirmation">
-              <Button type="button" variant="proceed">
-                Proceed to Checkout
+            
+              <Button variant="secondary">
+                <Link href="/catalog">← Continue Shopping
+                </Link>
               </Button>
-            </Link>
+            
+            
+              <Button type="button" variant="proceed">
+                <Link href="/confirmation">
+                Proceed to Checkout
+                </Link>
+              </Button>
+            
           </div>
         </>
       )}

@@ -73,11 +73,12 @@ export default async function ProductsPage() {
                 },
               }}
             />
-            <Link href={`/dashboard/products/${product.id}/edit`}>
+            
               <button className="bg-blue-600 text-white px-4 py-2 rounded-lg border border-gray-200 shadow-md hover:shadow-lg hover:bg-blue-700 transition">
-                ✏️ Edit Product
+                <Link href={`/dashboard/products/${product.id}/edit`}>✏️ Edit Product
+                </Link>
               </button>
-            </Link>
+            
           </div>
         ))}
       </div>

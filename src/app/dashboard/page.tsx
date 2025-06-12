@@ -94,16 +94,18 @@ export default async function SellerDashboad() {
         ))}
       </div>
       <div className="flex gap-4 mb-8 mt-6">
-        <Link href="/dashboard/add">
+        
           <button className="bg-green-600 text-white px-4 py-2 rounded-lg border border-gray-200 shadow-md hover:shadow-lg hover:bg-green-700 transition">
-            ➕ Add Product
+            <Link href="/dashboard/add">➕ Add Product
+            </Link>
           </button>
-        </Link>
-        <Link href="/dashboard/products">
+        
+        
           <button className="bg-blue-600 text-white px-4 py-2 rounded-lg border border-gray-200 shadow-md hover:shadow-lg hover:bg-blue-700 transition">
-            ✏️ Edit Product
+            <Link href="/dashboard/products">✏️ Edit Product
+            </Link>  
           </button>
-        </Link>
+        
       </div>
     </main>
   );
