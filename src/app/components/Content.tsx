@@ -30,25 +30,29 @@ type Seller = {
 };
 
 export default async function Content() {
-  const products = await sql<Product[]>`
-    SELECT i.id, i.inv_title, i.inv_price, i.image_url, i.seller_id, s.name
-    FROM inventory i
-    JOIN sellers s ON i.seller_id = s.id
-    LIMIT 4
-  `;
+  // throw new Error('Throw Test Error');  //test error
+  try {
+    const products = await sql<Product[]>`
+      SELECT i.id, i.inv_title, i.inv_price, i.image_url, i.seller_id, s.name
+      FROM inventory i
+      JOIN sellers s ON i.seller_id = s.id
+      LIMIT 4
+    `;
 
-  const sellers = await sql<Seller[]>`
-    SELECT id, name, specialty, image_url, rating
-    FROM sellers
-    LIMIT 3
-  `;
+    const sellers = await sql<Seller[]>`
+      SELECT id, name, specialty, image_url, rating
+      FROM sellers
+      LIMIT 3
+    `;
 
   // Get product IDs for fetching average ratings
   const productIds = products.map((product) => product.id);
 
   // Fetch average ratings using the server action
   const ratingsMap = await getAverageRatings(productIds);
-
+  
+  
+  
   return (
     <div className="bg-[var(--accent1-light)] px-4 py-6">
       <div className="max-w-7xl mx-auto">
@@ -141,4 +145,9 @@ export default async function Content() {
       </div>
     </div>
   );
+
+  } catch (error) {
+      console.error('Database Error:', error);
+      throw new Error('Failed to fetch data.');
+  } 
 }

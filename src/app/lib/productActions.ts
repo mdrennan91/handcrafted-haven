@@ -10,6 +10,7 @@ const sql = postgres(process.env.DATABASE_URL!, {
 });
 
 export async function addProduct(formData: FormData) {
+  try {
   const inv_title = formData.get('inv_title') as string;
   const inv_description = formData.get('inv_description') as string;
   const inv_price = Number(formData.get('inv_price'));
@@ -28,44 +29,66 @@ export async function addProduct(formData: FormData) {
 `;
   revalidatePath('/dashboard');
   redirect('/dashboard');
+
+  } catch (error) {
+      console.error('Database Error:', error);
+      throw new Error('Failed to insert product data.');
+  }
 }
 
 // Server action to get a single product by ID
 export async function getProductById(id: string) {
-  const result = await sql`
-    SELECT * FROM inventory WHERE id = ${id}
-  `;
-  return result[0];
+  try {
+    const result = await sql`
+      SELECT * FROM inventory WHERE id = ${id}
+    `;
+    return result[0];
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch product data.');
+  }
 }
 
 // Server action to update product
 
 export async function updateProduct(id: string, formData: FormData) {
-  const inv_title = formData.get('inv_title') as string;
-  const inv_description = formData.get('inv_description') as string;
-  const inv_price = Number(formData.get('inv_price'));
-  const inv_discount = Number(formData.get('inv_discount')) || 0;
-  // const image_url = formData.get('image_url') as string;
-  const featured = formData.get('featured') === 'on';
 
-  await sql`
-    UPDATE inventory
-    SET inv_title = ${inv_title},
-        inv_description = ${inv_description},
-        inv_price = ${inv_price},
-        inv_discount = ${inv_discount},
-        featured = ${featured}
-    WHERE id = ${id}
-  `;
+  try {
+    const inv_title = formData.get('inv_title') as string;
+    const inv_description = formData.get('inv_description') as string;
+    const inv_price = Number(formData.get('inv_price'));
+    const inv_discount = Number(formData.get('inv_discount')) || 0;
+    // const image_url = formData.get('image_url') as string;
+    const featured = formData.get('featured') === 'on';
 
-  revalidatePath('/dashboard');
-  redirect('/dashboard');
+    await sql`
+      UPDATE inventory
+      SET inv_title = ${inv_title},
+          inv_description = ${inv_description},
+          inv_price = ${inv_price},
+          inv_discount = ${inv_discount},
+          featured = ${featured}
+      WHERE id = ${id}
+    `;
+
+    revalidatePath('/dashboard');
+    redirect('/dashboard');
+
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to update product data.');
+  }
 }
 
 export async function deleteProduct(id: string) {
-  await sql`DELETE FROM inventory WHERE id = ${id}`;
-  revalidatePath('/dashboard');
-  redirect('/dashboard');
+  try {
+    await sql`DELETE FROM inventory WHERE id = ${id}`;
+    revalidatePath('/dashboard');
+    redirect('/dashboard');
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to delete product data.');
+  }
 }
 
 export async function addReview(productId: string, rating: number, comment: string) {

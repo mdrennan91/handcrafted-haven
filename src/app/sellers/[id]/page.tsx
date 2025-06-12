@@ -33,66 +33,72 @@ export default async function Seller({
 }: {
   params: Promise<{ id: string }>;
 }) {
-  const { id } = await params;
+  // throw new Error('Throw Test Error'); 
+  try {
+    const { id } = await params;
 
-  const sellerResult = await sql<Seller[]>`
-    SELECT id, name, specialty, image_url, rating
-    FROM sellers
-    WHERE id = ${id}
-  `;
+    const sellerResult = await sql<Seller[]>`
+      SELECT id, name, specialty, image_url, rating
+      FROM sellers
+      WHERE id = ${id}
+    `;
 
-  const seller = sellerResult[0];
+    const seller = sellerResult[0];
 
-  if (!seller) {
-    return notFound();
-  }
+    if (!seller) {
+      return notFound();
+    }
 
-  const products = await sql<Product[]>`
-    SELECT *
-    FROM inventory
-    WHERE seller_id = ${id}
-  `;
+    const products = await sql<Product[]>`
+      SELECT *
+      FROM inventory
+      WHERE seller_id = ${id}
+    `;
 
-  return (
-    <main className="p-6 max-w-4xl mx-auto">
-      <div className="flex gap-4 items-center mb-6">
-        <Image
-          src={seller.image_url}
-          alt={seller.name}
-          width={100}
-          height={100}
-          className="rounded-full"
-        />
-        <div>
-          <h1 className="text-2xl font-bold">{seller.name}</h1>
-          <p className="text-sm text-gray-500">{seller.specialty}</p>
-          <p className="text-sm text-yellow-600">⭐ {seller.rating}</p>
-          {/* <Link href={`/sellers/${seller.id}/about`}>
-            <button className="mt-4 bg-blue-600 text-white px-4 py-2 rounded-xl hover:bg-blue-700">
-              About Me
-            </button>
-          </Link> */}
-        </div>
-      </div>
-
-      <h2 className="text-xl font-semibold mb-4">Products by {seller.name}</h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-        {products.map((product) => (
-          <ProductCard
-            key={product.id}
-            product={{
-              id: product.id,
-              title: product.inv_title,
-              price: product.inv_price,
-              imageUrl: product.image_url || '/placeholder.png',
-              seller: {
-                id: seller.id,
-                name: seller.name,
-              },
-            }}
+    return (
+      <main className="p-6 max-w-4xl mx-auto">
+        <div className="flex gap-4 items-center mb-6">
+          <Image
+            src={seller.image_url}
+            alt={seller.name}
+            width={100}
+            height={100}
+            className="rounded-full"
           />
-        ))}
-      </div>
-    </main>
-  );
+          <div>
+            <h1 className="text-2xl font-bold">{seller.name}</h1>
+            <p className="text-sm text-gray-500">{seller.specialty}</p>
+            <p className="text-sm text-yellow-600">⭐ {seller.rating}</p>
+            {/* <Link href={`/sellers/${seller.id}/about`}>
+              <button className="mt-4 bg-blue-600 text-white px-4 py-2 rounded-xl hover:bg-blue-700">
+                About Me
+              </button>
+            </Link> */}
+          </div>
+        </div>
+
+        <h2 className="text-xl font-semibold mb-4">Products by {seller.name}</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+          {products.map((product) => (
+            <ProductCard
+              key={product.id}
+              product={{
+                id: product.id,
+                title: product.inv_title,
+                price: product.inv_price,
+                imageUrl: product.image_url || '/placeholder.png',
+                seller: {
+                  id: seller.id,
+                  name: seller.name,
+                },
+              }}
+            />
+          ))}
+        </div>
+      </main>
+    );
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch data.');
+  }
 }

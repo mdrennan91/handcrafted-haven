@@ -8,6 +8,7 @@ import { Button } from "@/app/ui/button";
 import { getAverageRatings } from "@/app/lib/productActions";
 
 export default function CartPage() {
+  //  throw new Error('Throw Test Error'); 
   const [cartItems, setCartItems] = useState<CartItemType[]>([]);
   const [total, setTotal] = useState(0);
   const [loadingRatings, setLoadingRatings] = useState(true);

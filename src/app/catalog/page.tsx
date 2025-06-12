@@ -24,7 +24,8 @@ export default async function CatalogPage({
 }: {
   searchParams:  Promise<{ [key:string]: string | string[] | undefined }>;
 }) {
-
+//  throw new Error('Throw Test Error'); 
+ try {
   const products = await sql<Product[]>`
     SELECT i.*, s.name
     FROM inventory i
@@ -69,4 +70,8 @@ export default async function CatalogPage({
       </div>
     </main>
   );
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch data.');
+  }
 }

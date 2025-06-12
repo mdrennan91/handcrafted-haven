@@ -1,7 +1,6 @@
 "use server"
 
 import postgres from "postgres";
-// import { ParameterOrJSON }  from "postgres";
 import { getAverageRatings } from "./productActions";
 
 const sql = postgres(process.env.DATABASE_URL!, {ssl: "require"});
