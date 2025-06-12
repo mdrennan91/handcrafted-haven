@@ -23,7 +23,7 @@ export default async function SellersPage() {
 
   return (
     <main className="p-6 max-w-7xl mx-auto">
-      <h1 className="text-2xl md:text-3xl font-bold mb-6 text-center">All Sellers</h1>
+      <h1 className="text-2xl md:text-3xl font-bold mb-6 text-center">Artisan Shops</h1>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
         {sellers.map((seller) => (

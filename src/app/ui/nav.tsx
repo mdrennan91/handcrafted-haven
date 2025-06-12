@@ -10,7 +10,7 @@ import { useCartCount } from "@/app/lib/useCartCount";
 const links = [
   { name: "Home", href: "/", icon: House },
   { name: "Catalog", href: "/catalog", icon: BookImage },
-  { name: "Sellers", href: "/sellers", icon: Package },
+  { name: "Artisans", href: "/sellers", icon: Package },
   { name: "Cart", href: "/cart", icon: ShoppingCart },
 ];
 
