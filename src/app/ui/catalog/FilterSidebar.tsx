@@ -156,7 +156,7 @@ export default function FilterSidebar({
                 <hr />
 
                 {/** -- Sellers Section -- */}
-                <h3 className="font-semibold mb-2">Sellers</h3>
+                <h3 className="font-semibold mb-2">Artisans</h3>
                 <div className="space-y-1 max-h-48 overflow-auto">
                     {/**Build sellers list */}
                     {sellers.map((seller) => (

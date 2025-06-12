@@ -69,7 +69,7 @@ export default async function Content() {
               <p className="text-sm md:text-base">
                 Start selling your handmade products today.
               </p>
-              <Link href="/catalog">
+              <Link href="/login">
                 <Button
                   type="button"
                   variant="secondary"
@@ -110,7 +110,7 @@ export default async function Content() {
         <section className="mb-12">
           <div className={lusitana.className}>
             <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              Meet our top-rated sellers
+              Support our top-rated artisan shops
             </h2>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
