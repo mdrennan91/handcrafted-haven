@@ -39,6 +39,8 @@ export default async function ProductPage({
 }: {
   params: Promise<{ id: string }>;
 }) {
+  // throw new Error('Throw Test Error');
+  try {
   const { id } = await params;
   const productResult = await sql<ProductWithSeller[]>`
     SELECT i.*, s.name
@@ -104,4 +106,8 @@ export default async function ProductPage({
       <ReviewList reviews={reviews} />
     </main>
   );
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch data.');
+  }
 }
