@@ -2,7 +2,7 @@ import postgres from 'postgres';
 import Image from 'next/image';
 import ProductCard from '@ui/catalog/ProductCard';
 import { notFound } from 'next/navigation';
-import Link from 'next/link';
+// import Link from 'next/link';
 
 const sql = postgres(process.env.DATABASE_URL!, {
   ssl: 'require',
@@ -67,11 +67,11 @@ export default async function Seller({
           <h1 className="text-2xl font-bold">{seller.name}</h1>
           <p className="text-sm text-gray-500">{seller.specialty}</p>
           <p className="text-sm text-yellow-600">⭐ {seller.rating}</p>
-          <Link href={`/sellers/${seller.id}/about`}>
+          {/* <Link href={`/sellers/${seller.id}/about`}>
             <button className="mt-4 bg-blue-600 text-white px-4 py-2 rounded-xl hover:bg-blue-700">
-              Add commentMore actions About Me
+              About Me
             </button>
-          </Link>
+          </Link> */}
         </div>
       </div>
 

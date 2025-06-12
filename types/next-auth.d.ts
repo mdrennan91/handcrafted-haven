@@ -23,6 +23,6 @@ declare module 'next-auth/jwt' {
   }
 }
 
-export type LoginState =
-  | { success: true; role: 'Admin' | 'Seller' | 'User' }
-  | { error: string };
+// export type LoginState =
+//   | { success: true; role: 'Admin' | 'Seller' | 'User' }
+//   | { error: string };
