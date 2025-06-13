@@ -2,54 +2,45 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { getToken } from 'next-auth/jwt';
 
+// short cut for auth, but doesn't support role-based auth?
+// import NextAuth from 'next-auth';
+// import { authConfig } from './auth.config';
+// export default NextAuth(authConfig).auth;
+
+  console.log('NEXTAUTH_URL', process.env.NEXTAUTH_URL || undefined)
+  console.log('AUTH_URL', process.env.AUTH_URL || undefined)
+  
+
 
 //add logic for customer/base user. This covers Seller
 export async function middleware(req: NextRequest) {
-  
-  // const token = await getToken({ req, secret: process.env.AUTH_SECRET });
 
-  // const pathname = req.nextUrl.pathname;
-  const {pathname} = req.nextUrl;
-  if (pathname.startsWith('/_next') || pathname.startsWith('/api/auth')) {
-    return NextResponse.next()
-  }
+  console.log("🔍 middleware host header:", req.headers.get("host"))
+  console.log("🔍 env NEXTAUTH_URL:  ", process.env.NEXTAUTH_URL)
+  console.log("🔍 env AUTH_URL:  ", process.env.AUTH_URL)
 
-  if (pathname.startsWith('/dashboard') || pathname.startsWith('/admin')) {
-     const token = await getToken({ req, secret: process.env.AUTH_SECRET });
-    if(!token) {
-      return NextResponse.redirect(new URL('/login', req.url))
+  const token = await getToken({ req, secret: process.env.AUTH_SECRET });
+
+  const pathname = req.nextUrl.pathname;
+
+  if (token) {
+    const role = token.role;
+
+    // Redirect non-admins trying to access /admin
+    if (pathname.startsWith('/admin') && role !== 'Admin') {
+      return NextResponse.redirect(new URL('/', req.url));
     }
-    if(
-      pathname.startsWith('/dashboard') && token.role !=='Seller'
-      || pathname.startsWith('/admin') && token.role !=='Admin'
-    ) {
-      return NextResponse.redirect(new URL('/', req.url))
+    // Redirect non-sellers trying to access /dashboard
+    if (pathname.startsWith('/dashboard') && role !== 'Seller') {
+      return NextResponse.redirect(new URL('/', req.url));
     }
-
-  return NextResponse.next()
-
-
+  } else {
+    // If not authenticated, block protected routes
+    if (pathname.startsWith('/admin') || pathname.startsWith('/dashboard')) {
+      return NextResponse.redirect(new URL('/login', req.url));
+    }
   }
-
-
-  // if (token) {
-  //   const role = token.role;
-
-  //   // Redirect non-admins trying to access /admin
-  //   if (pathname.startsWith('/admin') && role !== 'Admin') {
-  //     return NextResponse.redirect(new URL('/', req.url));
-  //   }
-  //   // Redirect non-sellers trying to access /dashboard
-  //   if (pathname.startsWith('/dashboard') && role !== 'Seller') {
-  //     return NextResponse.redirect(new URL('/', req.url));
-  //   }
-  // } else {
-  //   // If not authenticated, block protected routes
-  //   if (pathname.startsWith('/admin') || pathname.startsWith('/dashboard')) {
-  //     return NextResponse.redirect(new URL('/login', req.url));
-  //   }
-  // }
-  // return NextResponse.next();
+  return NextResponse.next();
 }
 
 //figure out which paths to protect
@@ -57,6 +48,6 @@ export async function middleware(req: NextRequest) {
 export const config = {
   // https://nextjs.org/docs/app/building-your-application/routing/middleware#matcher
   //matcher allows you to filter Middleware to run on specific paths.
-  // matcher: ['/((?!api|_next/static|_next/image|.*\\.png$).*)'],
-  matcher: ['/dashboard/:path*', '/admin/:path*'],
+  matcher: ['/((?!api|_next/static|_next/image|.*\\.png$).*)'],
+  // matcher: ['/dashboard/:path*'],
 };

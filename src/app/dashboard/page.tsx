@@ -34,13 +34,14 @@ type Product = {
 export default async function SellerDashboad() {
  
     // For simplicity, using a hardcoded ID
-    const session = await auth();
+    // const session = await auth();
 
-    if (!session || !session.user?.id) {
-      return <p className="p-6">You must be logged in to view this page.</p>;
-    }
+    // if (!session || !session.user?.id) {
+    //   return <p className="p-6">You must be logged in to view this page.</p>;
+    // }
 
-    const id = session.user.id;
+    // const id = session.user.id;
+    const id= '6356c780-a88e-476f-954a-aa09041f061b'
 
     let sellerResult;
     try {
