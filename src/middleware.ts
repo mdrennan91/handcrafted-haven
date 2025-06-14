@@ -25,6 +25,7 @@ export async function middleware(req: NextRequest) {
 
   if (token) {
     const role = token.role;
+    console.log("role", role);
 
     // Redirect non-admins trying to access /admin
     if (pathname.startsWith('/admin') && role !== 'Admin') {
@@ -34,6 +35,8 @@ export async function middleware(req: NextRequest) {
     if (pathname.startsWith('/dashboard') && role !== 'Seller') {
       return NextResponse.redirect(new URL('/', req.url));
     }
+
+    //causing redirect loop
   // } else {
   //   // If not authenticated, block protected routes
   //   if (pathname.startsWith('/admin') || pathname.startsWith('/dashboard')) {
