@@ -21,17 +21,7 @@ export const authConfig = {
       }
       return session;
     },
-    // authorized({ auth, request: { nextUrl } }) {
-    //   const isLoggedIn = !!auth?.user;
-    //   const isOnDashboard = nextUrl.pathname.startsWith('/dashboard'); //could use homepage, or whatever page needs to be logged in to view
-    //   if (isOnDashboard) {
-    //     if (isLoggedIn) return true;
-    //     return false; // Redirect unauthenticated users to login page
-    //   } else if (isLoggedIn) {
-    //     return Response.redirect(new URL('/dashboard', nextUrl));
-    //   }
-    //   return true;
-    // },
+
     async authorized({auth, request: {nextUrl}}) {
       const user = auth?.user;
       const role = user?.role;     
