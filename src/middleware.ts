@@ -34,11 +34,11 @@ export async function middleware(req: NextRequest) {
     if (pathname.startsWith('/dashboard') && role !== 'Seller') {
       return NextResponse.redirect(new URL('/', req.url));
     }
-  } else {
-    // If not authenticated, block protected routes
-    if (pathname.startsWith('/admin') || pathname.startsWith('/dashboard')) {
-      return NextResponse.redirect(new URL('/login', req.url));
-    }
+  // } else {
+  //   // If not authenticated, block protected routes
+  //   if (pathname.startsWith('/admin') || pathname.startsWith('/dashboard')) {
+  //     return NextResponse.redirect(new URL('/login', req.url));
+  //   }
   }
   return NextResponse.next();
 }
@@ -50,4 +50,4 @@ export const config = {
   //matcher allows you to filter Middleware to run on specific paths.
   matcher: ['/((?!api|_next/static|_next/image|.*\\.png$).*)'],
   // matcher: ['/dashboard/:path*'],
-};
+}
