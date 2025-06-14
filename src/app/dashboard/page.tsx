@@ -2,7 +2,7 @@ import postgres from 'postgres';
 import Image from 'next/image';
 import ProductCard from '@ui/catalog/ProductCard';
 import Link from 'next/link';
-import { auth } from '../../auth';
+import { auth } from '@/auth';
 import { redirect } from 'next/navigation';
 
 const sql = postgres(process.env.DATABASE_URL!, {
@@ -41,6 +41,7 @@ export default async function SellerDashboad() {
     }
 
     const id = session.user.id;
+    // const id= '6356c780-a88e-476f-954a-aa09041f061b'
 
     let sellerResult;
     try {
