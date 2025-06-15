@@ -12,7 +12,7 @@ export default async function EditProduct({ id }: { id: string }) {
   }
 
   return (
-    <main className="p-6 max-w-4xl mx-auto">
+    <div className="p-6 max-w-4xl mx-auto">
       <h1 className="text-2xl font-bold mb-6">Edit Product</h1>
       <form action={updateProduct.bind(null, id)} className="space-y-4">
         <div>
@@ -113,6 +113,6 @@ export default async function EditProduct({ id }: { id: string }) {
         </button>
       </form>
       <DeleteProductButton id={id} />
-    </main>
+    </div>
   );
 }

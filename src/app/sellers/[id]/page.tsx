@@ -1,11 +1,11 @@
-import postgres from 'postgres';
-import Image from 'next/image';
-import ProductCard from '@ui/catalog/ProductCard';
-import { notFound } from 'next/navigation';
+import postgres from "postgres";
+import Image from "next/image";
+import ProductCard from "@ui/catalog/ProductCard";
+import { notFound } from "next/navigation";
 // import Link from 'next/link';
 
 const sql = postgres(process.env.DATABASE_URL!, {
-  ssl: 'require',
+  ssl: "require",
   prepare: false,
 });
 
@@ -33,7 +33,7 @@ export default async function Seller({
 }: {
   params: Promise<{ id: string }>;
 }) {
-  // throw new Error('Throw Test Error'); 
+  // throw new Error('Throw Test Error');
   try {
     const { id } = await params;
 
@@ -56,7 +56,7 @@ export default async function Seller({
     `;
 
     return (
-      <main className="p-6 max-w-4xl mx-auto">
+      <div className="p-6 max-w-4xl mx-auto">
         <div className="flex gap-4 items-center mb-6">
           <Image
             src={seller.image_url}
@@ -77,7 +77,9 @@ export default async function Seller({
           </div>
         </div>
 
-        <h2 className="text-xl font-semibold mb-4">Products by {seller.name}</h2>
+        <h2 className="text-xl font-semibold mb-4">
+          Products by {seller.name}
+        </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
           {products.map((product) => (
             <ProductCard
@@ -86,7 +88,7 @@ export default async function Seller({
                 id: product.id,
                 title: product.inv_title,
                 price: product.inv_price,
-                imageUrl: product.image_url || '/placeholder.png',
+                imageUrl: product.image_url || "/placeholder.png",
                 seller: {
                   id: seller.id,
                   name: seller.name,
@@ -95,10 +97,10 @@ export default async function Seller({
             />
           ))}
         </div>
-      </main>
+      </div>
     );
   } catch (error) {
-    console.error('Database Error:', error);
-    throw new Error('Failed to fetch data.');
+    console.error("Database Error:", error);
+    throw new Error("Failed to fetch data.");
   }
 }

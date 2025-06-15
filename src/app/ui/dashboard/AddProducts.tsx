@@ -4,7 +4,7 @@ export default function AddProducts() {
   const sellerId = "96f2d901-d2ab-4660-8db7-2cc7b04aea7d";
 
   return (
-    <main className="p-6 max-w-4xl mx-auto">
+    <div className="p-6 max-w-4xl mx-auto">
       <h1 className="text-2xl font-bold mb-6">Add New Product</h1>
       <form action={addProduct} className="space-y-4">
         <div>
@@ -106,6 +106,6 @@ export default function AddProducts() {
           Add Product
         </button>
       </form>
-    </main>
+    </div>
   );
 }

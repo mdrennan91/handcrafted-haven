@@ -1,16 +1,21 @@
 import clsx from "clsx";
+import Link from "next/link";
 
-interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+type ButtonVariants = "primary" | "secondary" | "cartButton" | "proceed";
+
+interface SharedProps {
   children: React.ReactNode;
-  variant?: "primary" | "secondary" | "cartButton" | "proceed";
+  className?: string;
+  variant?: ButtonVariants;
+  url?: string;
 }
 
-export function Button({
-  children,
-  className,
-  variant = "primary",
-  ...rest
-}: ButtonProps) {
+type ButtonProps = SharedProps & React.ButtonHTMLAttributes<HTMLButtonElement>;
+type AnchorProps = SharedProps & React.AnchorHTMLAttributes<HTMLAnchorElement>;
+
+export function Button(props: ButtonProps | AnchorProps) {
+  const { children, className, variant = "primary", url, ...rest } = props;
+
   const baseStyles =
     "flex h-10 items-center justify-center text-sm font-medium transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 cursor-pointer";
 
@@ -24,10 +29,27 @@ export function Button({
     proceed: "bg-green-600 hover:bg-green-700 text-white rounded-lg px-4",
   };
 
+  if (url) {
+    // If a URL is provided this will be an anchor link
+    const anchorRest = rest as React.AnchorHTMLAttributes<HTMLAnchorElement>;
+    return (
+      <Link
+        href={url}
+        passHref
+        className={clsx(baseStyles, variantStyles[variant], className)}
+        {...anchorRest}
+      >
+        {children}
+      </Link>
+    );
+  }
+
+  // Otherwise, this will be a button
+  const buttonRest = rest as React.ButtonHTMLAttributes<HTMLButtonElement>;
   return (
     <button
-      {...rest}
       className={clsx(baseStyles, variantStyles[variant], className)}
+      {...buttonRest}
     >
       {children}
     </button>
