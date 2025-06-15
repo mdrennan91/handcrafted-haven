@@ -22,17 +22,17 @@ const baseLinks = [
   { name: "Cart", href: "/cart", icon: ShoppingCart },
 ];
 
-const dashboardLink = {
-  name: "Dashboard",
-  href: "/dashboard",
-  icon: LayoutDashboard,
-};
-
 export default function Nav({ role }: { role: string | undefined }) {
   const pathname = usePathname();
   const cartCount = useCartCount();
   const [isOpen, setIsOpen] = useState(false);
   const isAuthenticated = role;
+
+  const dashboardLink = {
+    name: role === "Admin" ? "Admin" : "Dashboard",
+    href: role === "Admin" ? "/admin" : "/dashboard",
+    icon: LayoutDashboard,
+  };
 
   const links = isAuthenticated ? [dashboardLink, ...baseLinks] : baseLinks;
 
