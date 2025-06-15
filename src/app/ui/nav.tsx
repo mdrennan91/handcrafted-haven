@@ -1,23 +1,40 @@
 "use client";
 
-import { BookImage, House, Menu, Package, ShoppingCart, X } from "lucide-react";
+import {
+  BookImage,
+  House,
+  LayoutDashboard,
+  Menu,
+  Package,
+  ShoppingCart,
+  X,
+} from "lucide-react";
 import clsx from "clsx";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { useCartCount } from "@/app/lib/useCartCount";
 
-const links = [
+const baseLinks = [
   { name: "Home", href: "/", icon: House },
   { name: "Catalog", href: "/catalog", icon: BookImage },
   { name: "Artisans", href: "/sellers", icon: Package },
   { name: "Cart", href: "/cart", icon: ShoppingCart },
 ];
 
-export default function Nav() {
+export default function Nav({ role }: { role: string | undefined }) {
   const pathname = usePathname();
   const cartCount = useCartCount();
   const [isOpen, setIsOpen] = useState(false);
+  const isAuthenticated = role;
+
+  const dashboardLink = {
+    name: role === "Admin" ? "Admin" : "Dashboard",
+    href: role === "Admin" ? "/admin" : "/dashboard",
+    icon: LayoutDashboard,
+  };
+
+  const links = isAuthenticated ? [dashboardLink, ...baseLinks] : baseLinks;
 
   useEffect(() => {
     function handleResize() {
@@ -47,32 +64,36 @@ export default function Nav() {
               const isCart = link.name === "Cart";
 
               return (
-                <li key={link.name} 
-                className={clsx(
+                <li
+                  key={link.name}
+                  className={clsx(
                     "relative text-white p-3 rounded-md transition-all ease-in-out duration-300",
                     {
                       "bg-[var(--secondary)]": pathname === link.href,
                       "hover:bg-[var(--secondary)]": pathname !== link.href,
                     }
-                  )}><Link
-                  
-                  href={link.href}
-                  title={link.name}
-                  
-                >
-                  <LinkIcon className="w-5 h-5" />
-                  {isCart && cartCount > 0 && (
-                    <span className="absolute -top-1 -right-1 bg-red-600 text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center">
-                      {cartCount}
-                    </span>
                   )}
-                </Link></li>
+                >
+                  <Link href={link.href} title={link.name}>
+                    <LinkIcon className="w-5 h-5" />
+                    {isCart && cartCount > 0 && (
+                      <span className="absolute -top-1 -right-1 bg-red-600 text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center">
+                        {cartCount}
+                      </span>
+                    )}
+                  </Link>
+                </li>
               );
             })}
           </ul>
         )}
-        {isOpen && (
-          <ul className="flex flex-col justify-center h-full w-90 gap-1 fixed left-0 top-0 bg-[var(--primary-transparent)] md:hidden z-10 transition-all animate-open-right">
+        <div
+          className={clsx(
+            "fixed left-0 top-0 h-full pt-24 w-90 md:hidden z-10 transition-transform duration-400",
+            isOpen ? "" : "-translate-x-full"
+          )}
+        >
+          <ul className="flex flex-col pb-24 justify-center h-full gap-1 bg-[var(--primary-transparent)]">
             {links.map((link) => {
               const LinkIcon = link.icon;
               const isCart = link.name === "Cart";
@@ -107,7 +128,7 @@ export default function Nav() {
               );
             })}
           </ul>
-        )}{" "}
+        </div>
       </div>
     </nav>
   );

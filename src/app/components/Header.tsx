@@ -2,16 +2,17 @@ import Image from "next/image";
 import Link from "next/link";
 import Nav from "../ui/nav";
 // import CategoryDropdown from "./CategoryDropdown";
-import { User } from "lucide-react"; 
+import { User } from "lucide-react";
 import clsx from "clsx";
-import { auth } from '@/auth';
+import { auth } from "@/auth";
 import LogoutForm from "./LogOutForm";
 
 export default async function Header() {
   const session = await auth();
+  const role = session?.user.role;
   return (
     <header className="bg-[var(--primary)] shadow-sm py-4 sticky top-0 z-20">
-      <div className="max-w-7xl mx-auto flex items-center gap-4">
+      <div className="max-w-7xl mx-auto flex items-center gap-4 mr-2">
         {/* Left: Logo */}
         <Link href="/" className="flex items-center shrink-0">
           <Image
@@ -56,10 +57,11 @@ export default async function Header() {
 
         {/** Right: Nav + Log in/Log out */}
         <div className="flex items-center gap-2 ml-auto">
-          <Nav />
-        {/** Logic to display login or logout icon and button */}
+          <Nav role={role} />
+
+          {/** Logic to display login or logout icon and button */}
           {session ? (
-            <LogoutForm/>
+            <LogoutForm />
           ) : (
             <Link
               href="/login"
@@ -69,10 +71,10 @@ export default async function Header() {
                 "hover:bg-[var(--secondary)]"
               )}
             >
-              <User className="w-5 h-5" />    
+              <User className="w-5 h-5" />
             </Link>
           )}
-      </div>
+        </div>
       </div>
     </header>
   );

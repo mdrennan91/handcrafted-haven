@@ -1,7 +1,10 @@
 import { addProduct } from "@/app/lib/productActions";
+import { auth } from "@/auth";
 
-export default function AddProducts() {
-  const sellerId = "96f2d901-d2ab-4660-8db7-2cc7b04aea7d";
+export default async function AddProducts() {
+  const session = await auth();
+
+  const sellerId = session?.user.id;
 
   return (
     <div className="p-6 max-w-4xl mx-auto">
