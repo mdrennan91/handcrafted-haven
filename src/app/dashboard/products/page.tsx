@@ -2,6 +2,7 @@ import postgres from "postgres";
 import ProductCard from "@ui/catalog/ProductCard";
 import { notFound } from "next/navigation";
 import { Button } from "@/app/ui/button";
+import { auth } from "@/auth";
 
 const sql = postgres(process.env.DATABASE_URL!, {
   ssl: "require",
@@ -34,10 +35,11 @@ type Product = {
 // }) {
 //   const { id } = params;
 export default async function ProductsPage() {
+  const session = await auth();
   // throw new Error('Throw Test Error');
   try {
     // For simplicity, using a hardcoded ID
-    const id = "96f2d901-d2ab-4660-8db7-2cc7b04aea7d";
+    const id = session!.user.id;
 
     const sellerResult = await sql<Seller[]>`
       SELECT id, name, specialty, image_url, rating

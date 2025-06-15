@@ -27,13 +27,13 @@ export async function addProduct(formData: FormData) {
   INSERT INTO inventory (inv_title, inv_description, inv_price, inv_discount, featured, seller_id)
   VALUES (${inv_title}, ${inv_description}, ${inv_price}, ${inv_discount}, ${featured}, ${seller_id})
 `;
-  revalidatePath('/dashboard');
-  redirect('/dashboard');
-
   } catch (error) {
       console.error('Database Error:', error);
       throw new Error('Failed to insert product data.');
   }
+
+  revalidatePath('/dashboard');
+  redirect('/dashboard');
 }
 
 // Server action to get a single product by ID
@@ -83,12 +83,12 @@ export async function updateProduct(id: string, formData: FormData) {
 export async function deleteProduct(id: string) {
   try {
     await sql`DELETE FROM inventory WHERE id = ${id}`;
-    revalidatePath('/dashboard');
-    redirect('/dashboard');
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to delete product data.');
   }
+  revalidatePath('/dashboard/products');
+    redirect('/dashboard/products');
 }
 
 export async function addReview(productId: string, rating: number, comment: string) {
