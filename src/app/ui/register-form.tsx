@@ -1,26 +1,26 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function RegisterForm() {
   const router = useRouter();
 
-  const [userType, setUserType] = useState('User');
+  const [userType, setUserType] = useState("User");
   const [isPending, setIsPending] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
-  const [successMessage, setSuccessMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsPending(true);
-    setErrorMessage('');
-    setSuccessMessage('');
+    setErrorMessage("");
+    setSuccessMessage("");
 
     const formData = new FormData(e.currentTarget);
 
-    const response = await fetch('/api/register', {
-      method: 'POST',
+    const response = await fetch("/api/register", {
+      method: "POST",
       body: formData,
     });
 
@@ -28,17 +28,17 @@ export default function RegisterForm() {
     setIsPending(false);
 
     if (response.ok) {
-      setSuccessMessage('Registration successful! Redirecting to login...');
+      setSuccessMessage("Registration successful! Redirecting to login...");
 
       if (e.currentTarget instanceof HTMLFormElement) {
         e.currentTarget.reset();
       }
 
       setTimeout(() => {
-        router.push('/login?registered=1');
+        router.push("/login?registered=1");
       }, 1500);
     } else {
-      setErrorMessage(result.error || 'Registration failed.');
+      setErrorMessage(result.error || "Registration failed.");
     }
   };
 
@@ -95,7 +95,7 @@ export default function RegisterForm() {
             </select>
           </label>
 
-          {userType === 'Seller' && (
+          {userType === "Seller" && (
             <>
               <label className="mb-3 mt-5 block text-sm font-medium text-[var(--primary-light)]">
                 Store Name
@@ -156,9 +156,9 @@ export default function RegisterForm() {
         <button
           type="submit"
           disabled={isPending}
-          className="mt-4 w-full bg-[var(--secondary)] hover:bg-[var(--secondary-light)] text-black py-2 rounded-xl transition-transform duration-200 hover:scale-105 disabled:opacity-50"
+          className="mt-4 w-full bg-[var(--secondary)] hover:bg-[var(--secondary-light)] text-black py-2 rounded-xl transition-transform duration-200 hover:scale-105 disabled:opacity-50 cursor-pointer"
         >
-          {isPending ? 'Registering...' : 'Register'}
+          {isPending ? "Registering..." : "Register"}
         </button>
 
         <div

@@ -2,7 +2,6 @@
 
 import { useEffect } from "react";
 import { Button } from "@/app/ui/button";
-import Link from "next/link";
 import Image from "next/image";
 
 export default function ConfirmationPage() {
@@ -12,7 +11,7 @@ export default function ConfirmationPage() {
   }, []);
 
   return (
-    <main className="flex flex-col items-center justify-center min-h-[70vh] text-center p-6">
+    <div className="flex flex-col items-center justify-center min-h-[70vh] text-center p-6">
       <Image
         src="/logos/solid-backg-square-logo.png"
         alt="Handcrafted Haven Logo"
@@ -29,13 +28,9 @@ export default function ConfirmationPage() {
         difference.
       </p>
 
-      
-        <Button type="button" variant="secondary">
-          <Link href="/">
-          Back to Home
-          </Link>
-        </Button>
-      
-    </main>
+      <Button url="/" type="button" variant="secondary">
+        Back to Home
+      </Button>
+    </div>
   );
 }

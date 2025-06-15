@@ -3,12 +3,11 @@
 import { useEffect, useState } from "react";
 import CartItem from "@/app/ui/cart/CartItem";
 import { CartItemType, getCart } from "@/app/lib/cart";
-import Link from "next/link";
 import { Button } from "@/app/ui/button";
 import { getAverageRatings } from "@/app/lib/productActions";
 
 export default function CartPage() {
-  //  throw new Error('Throw Test Error'); 
+  //  throw new Error('Throw Test Error');
   const [cartItems, setCartItems] = useState<CartItemType[]>([]);
   const [total, setTotal] = useState(0);
   const [loadingRatings, setLoadingRatings] = useState(true);
@@ -57,7 +56,7 @@ export default function CartPage() {
   };
 
   return (
-    <main className="p-6 max-w-4xl mx-auto">
+    <div className="p-6 max-w-4xl mx-auto">
       <h1 className="text-2xl font-bold mb-6">Cart Summary</h1>
 
       {loadingRatings ? (
@@ -77,22 +76,16 @@ export default function CartPage() {
           </div>
 
           <div className="mt-6 flex flex-col sm:flex-row justify-between items-center gap-4">
-            
-              <Button variant="secondary">
-                <Link href="/catalog">← Continue Shopping
-                </Link>
-              </Button>
-            
-            
-              <Button type="button" variant="proceed">
-                <Link href="/confirmation">
-                Proceed to Checkout
-                </Link>
-              </Button>
-            
+            <Button url="/catalog" variant="secondary">
+              ← Continue Shopping
+            </Button>
+
+            <Button url="/confirmation" type="button" variant="proceed">
+              Proceed to Checkout
+            </Button>
           </div>
         </>
       )}
-    </main>
+    </div>
   );
 }

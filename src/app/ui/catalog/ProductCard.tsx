@@ -72,14 +72,15 @@ export default function ProductCard({
           </Link>
         </p>
         <div className="flex mt-4 justify-between">
-          
-            <Button>
-              <Link href={`/products/${product.id}`} className="inline-block">
-                View Product
-              </Link>
-            </Button>
-          
-          <Button type="button" value="cart" title="Add to Cart" variant="cartButton" onClick={handleAddToCart}>
+          <Button url={`/products/${product.id}`}>View Product</Button>
+
+          <Button
+            type="button"
+            value="cart"
+            title="Add to Cart"
+            variant="cartButton"
+            onClick={handleAddToCart}
+          >
             <ShoppingCart
               size={16}
               className={wiggle ? "animate-wiggle" : ""}

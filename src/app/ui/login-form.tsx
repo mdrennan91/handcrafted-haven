@@ -1,18 +1,18 @@
-'use client';
+"use client";
 
 // send user back to /dashboard ???
 
-import { lusitana } from '@/app/ui/fonts';
-import { useActionState } from 'react';
-import { authenticate } from '@/app/lib/actions';
-import { useSearchParams } from 'next/navigation';
-import { Button } from '@ui/button';
-import RegisterButton from '@/app/ui/register-button';
+import { lusitana } from "@/app/ui/fonts";
+import { useActionState } from "react";
+import { authenticate } from "@/app/lib/actions";
+import { useSearchParams } from "next/navigation";
+import { Button } from "@ui/button";
+import RegisterButton from "@/app/ui/register-button";
 
 export default function LoginForm() {
   const searchParams = useSearchParams(); //look in param for url to return to
-  const redirectTo = searchParams.get('redirectTo');
-  const justRegistered = searchParams.get('registered') === '1'; //send user back to page trying to enter or /dashboard
+  const redirectTo = searchParams.get("redirectTo");
+  const justRegistered = searchParams.get("registered") === "1"; //send user back to page trying to enter or /dashboard
   // if authentication fails, authenticate returns error string, errorMessage is set to that string, render errorMessage in form
   // formAction triggers state change, can use isPending to disable button, etc.
   const [errorMessage, formAction, isPending] = useActionState(
@@ -68,10 +68,13 @@ export default function LoginForm() {
             </label>
           </div>
           <div>
-            {redirectTo && redirectTo !== '/login' && (
+            {redirectTo && redirectTo !== "/login" && (
               <input type="hidden" name="redirectTo" value={redirectTo} />
             )}
-            <Button className=" bg-[var(--secondary)] hover:bg-[var(--secondary-light)] text-black transition-transform duration-200 hover:scale-105">
+            <Button
+              variant="secondary"
+              className="bg-[var(--secondary)] hover:bg-[var(--secondary-light)] text-black transition-transform duration-200 hover:scale-105"
+            >
               Sign In
             </Button>
             <RegisterButton />

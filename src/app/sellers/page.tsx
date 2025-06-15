@@ -1,9 +1,9 @@
-import postgres from 'postgres';
-import Image from 'next/image';
-import Link from 'next/link';
+import postgres from "postgres";
+import Image from "next/image";
+import Link from "next/link";
 
 const sql = postgres(process.env.DATABASE_URL!, {
-  ssl: 'require',
+  ssl: "require",
   prepare: false,
 });
 
@@ -16,7 +16,7 @@ type Seller = {
 };
 
 export default async function SellersPage() {
-  // throw new Error('Throw Test Error'); 
+  // throw new Error('Throw Test Error');
   try {
     const sellers = await sql<Seller[]>`
       SELECT id, name, specialty, image_url, rating
@@ -24,8 +24,10 @@ export default async function SellersPage() {
     `;
 
     return (
-      <main className="p-6 max-w-7xl mx-auto">
-        <h1 className="text-2xl md:text-3xl font-bold mb-6 text-center">Artisan Shops</h1>
+      <div className="p-6 max-w-7xl mx-auto">
+        <h1 className="text-2xl md:text-3xl font-bold mb-6 text-center">
+          Artisan Shops
+        </h1>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           {sellers.map((seller) => (
@@ -41,16 +43,18 @@ export default async function SellersPage() {
                 height={200}
                 className="rounded-md object-cover w-full h-40"
               />
-              <h3 className="mt-3 text-lg font-semibold text-gray-900">{seller.name}</h3>
+              <h3 className="mt-3 text-lg font-semibold text-gray-900">
+                {seller.name}
+              </h3>
               <p className="text-sm text-gray-500">{seller.specialty}</p>
               <p className="text-sm text-yellow-600">⭐ {seller.rating}</p>
             </Link>
           ))}
         </div>
-      </main>
+      </div>
     );
-    } catch (error) {
-    console.error('Database Error:', error);
-    throw new Error('Failed to fetch data.');
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw new Error("Failed to fetch data.");
   }
 }
