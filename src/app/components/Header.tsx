@@ -12,7 +12,7 @@ export default async function Header() {
   const role = session?.user.role;
   return (
     <header className="bg-[var(--primary)] shadow-sm py-4 sticky top-0 z-20">
-      <div className="max-w-7xl mx-auto flex items-center gap-4 mr-2">
+      <div className="max-w-7xl mx-auto flex items-center gap-4">
         {/* Left: Logo */}
         <Link href="/" className="flex items-center shrink-0">
           <Image

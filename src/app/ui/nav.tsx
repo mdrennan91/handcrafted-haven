@@ -89,7 +89,7 @@ export default function Nav({ role }: { role: string | undefined }) {
         )}
         <div
           className={clsx(
-            "fixed left-0 top-0 h-full pt-24 w-90 md:hidden z-10 transition-transform duration-400",
+            "fixed left-0 top-0 h-full pt-24 w-60 md:hidden z-10 transition-transform duration-400",
             isOpen ? "" : "-translate-x-full"
           )}
         >
