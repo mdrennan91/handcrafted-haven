@@ -7,6 +7,7 @@ import {
   getFilteredProducts,
 } from "../lib/filterActions";
 import FilterSidebar from "../ui/catalog/FilterSidebar";
+import { Metadata } from "next";
 
 const sql = postgres(process.env.DATABASE_URL!, { ssl: "require" });
 
@@ -20,6 +21,10 @@ type Product = {
   featured: boolean;
   name: string; // seller name
   image_url: string;
+};
+
+export const metadata: Metadata = {
+  title: 'Catalog',
 };
 
 export default async function CatalogPage({
