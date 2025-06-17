@@ -2,6 +2,11 @@ import { Suspense } from 'react';
 
 import Logo from '../ui/logo';
 import RegisterForm from '../ui/register-form';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Register',
+};
 
 export default function RegisterPage() {
   return (

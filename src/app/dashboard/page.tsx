@@ -4,6 +4,7 @@ import ProductCard from "@ui/catalog/ProductCard";
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 import { Button } from "../ui/button";
+import { Metadata } from "next";
 
 const sql = postgres(process.env.DATABASE_URL!, {
   ssl: "require",
@@ -27,6 +28,10 @@ type Product = {
   seller_id: string;
   image_url: string;
   featured: boolean;
+};
+
+export const metadata: Metadata = {
+  title: 'Dashboard',
 };
 
 // export default async function Seller({ params }: { params: Promise<{ id: string }> }) {

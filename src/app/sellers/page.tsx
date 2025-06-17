@@ -1,6 +1,7 @@
 import postgres from "postgres";
 import Image from "next/image";
 import Link from "next/link";
+import { Metadata } from "next";
 
 const sql = postgres(process.env.DATABASE_URL!, {
   ssl: "require",
@@ -13,6 +14,10 @@ type Seller = {
   specialty: string;
   image_url: string;
   rating: number;
+};
+
+export const metadata: Metadata = {
+  title: 'Artisans',
 };
 
 export default async function SellersPage() {
